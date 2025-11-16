@@ -1,18 +1,18 @@
 .main-content::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url('../images/background/field.png');
-    background-size: cover;
-    background-position: center;
-    filter: blur(6px);
-    z-index: -2;
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background-image: url('../images/background/field.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    filter: blur(6px) !important;
+    z-index: -2 !important ;
 }
 
 .main-content::after {
-    content: "";
-    position: absolute;
-    inset: 0;
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
     background: 
         linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(0,0,0,0) 250px),
         linear-gradient(to right,
@@ -33,8 +33,8 @@
             rgba(0, 0, 0, 0.6) 90%,
             rgba(0, 0, 0, 0.7) 95%,
             rgba(0, 0, 0, 0.8) 100%
-        );
-    z-index: -1;
+        ) !important;
+    z-index: -1 !important;
 }
 
 .home-center {

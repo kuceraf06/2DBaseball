@@ -4,7 +4,7 @@ $pageDescription = "Homepage for 2D Baseball Simulator includes download and oth
 
 $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/style.css?v=' . time() . '">';
 ?>
-<main class="main-content">
+<main class="main-content home-page">
     <div class="home-center">
         <h1>2D Baseball</h1>
         <p>Experience pitching, hitting, throwing, or stealing bases in a 2D Baseball simulator today!</p>

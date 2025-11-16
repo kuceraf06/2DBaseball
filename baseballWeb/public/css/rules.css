@@ -1,10 +1,4 @@
 .rules-page {
-    background: linear-gradient(
-        180deg,
-        #001a36 0%,
-        rgb(17, 17, 17) 30%,
-        rgb(17, 17, 17) 100%
-    );
     padding-bottom: 80px;
     text-align: center;
 }
@@ -227,8 +221,15 @@
     line-height: 1.6;
 }
 
-/* Responsive */
+@media (max-width: 900px) {
+    .rule-card {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
 
+    .sim-rule-item {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.45);
+    }
+}
 
 @media (max-width: 839px) {
     .rules-cards {

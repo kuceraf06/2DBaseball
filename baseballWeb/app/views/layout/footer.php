@@ -8,9 +8,9 @@
         <div class="footer-col">
             <h4>Menu</h4>
             <ul>
-                <li><a href="/kontakt">Download</a></li>
-                <li><a href="/">Support</a></li>
-                <li><a href="/sluzby">Leaderboard</a></li>
+                <li><a href="download">Download</a></li>
+                <li><a href="support">Support</a></li>
+                <li><a href="leaderboard">Leaderboard</a></li>
             </ul>
         </div>
 

@@ -1,12 +1,3 @@
-.about-page {
-    background: linear-gradient(
-        180deg,
-        #001a36 0%,
-        rgb(17, 17, 17) 30%,
-        rgb(17, 17, 17) 100%
-    );
-}
-
 .about-hero {
     display: flex;
     flex-direction: column;
@@ -149,15 +140,6 @@
 }
 
 @media (max-width: 900px) {
-    .about-page {
-        background: linear-gradient(
-            180deg,
-            #001a36 0%,
-            rgb(17, 17, 17) 15%,
-            rgb(17, 17, 17) 100%
-        );
-    }
-
     .about-block {
         flex-direction: column;
         gap: 20px;

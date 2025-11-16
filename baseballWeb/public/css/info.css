@@ -1,0 +1,124 @@
+.info-page {
+    padding-bottom: 80px;
+}
+
+.info-hero {
+    text-align: center;
+    padding: 110px 20px 70px;
+}
+
+.info-hero h1 {
+    font-size: 3rem;
+    line-height: .8;
+    font-weight: 700;
+    color: #eee;
+    -webkit-text-stroke: 1px #000;
+}
+
+.info-hero h1 span {
+    font-family: 'Jersey 10', sans-serif;
+    font-size: 5rem;
+    margin-left: 5px;
+    color: rgb(133, 133, 133);
+    -webkit-text-stroke: 1px #000;
+    text-stroke: 1px #000000;
+}
+
+.info-hero p {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #bbb;
+}
+
+.updates-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.update-card {
+    background: #1a1a1a;
+    padding: 25px 20px;
+    border-radius: 12px;
+    text-align: left;
+    border-left: 4px solid #275ea7;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.update-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.update-card h3 {
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.update-card p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.report-section {
+    max-width: 800px;
+    margin: 60px auto 0px;
+    padding: 0 20px;
+}
+
+.report-card {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 30px 25px;
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.report-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+}
+
+.report-card h2 {
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.report-card p {
+    font-size: 1rem;
+    color: #ccc;
+}
+
+.report-card a {
+    color: #275ea7;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all .3s ease-in-out;
+}
+
+.report-card a:hover {
+    color: #007bff;
+}
+
+.show-more-btn {
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    color: #bbb;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.show-more-btn:hover {
+    color: white;
+}
+
+@media (max-width: 900px) {
+    .update-card, .report-card {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+}

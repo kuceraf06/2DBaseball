@@ -4,10 +4,10 @@ $pageDescription = "Step-by-step instruction to learn how to play 2D Baseball ef
 $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/how-to-play.css?v=' . time() . '">';
 ?>
 
-<main class="how-page">
+<main class="main-content how-page">
 
     <section class="how-hero">
-        <h1>How to Play</h1>
+        <h1>How to <span>Play</span></h1>
         <p>Learn the essential mechanics to dominate the field.</p>
     </section>
 
@@ -74,7 +74,7 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/how-to-play.
             <div class="step">
                 <div class="step-number">3</div>
                 <h3>Choose&nbsp;good&nbsp;pitches</h3>
-                <p>Choose good pitches, free bases are also the way.</p>
+                <p>Choose good pitches, ballfours are also the way.</p>
             </div>
 
             <div class="step">

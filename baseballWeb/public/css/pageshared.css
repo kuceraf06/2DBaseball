@@ -316,3 +316,12 @@ body {
     min-height: 87vh;
     overflow: hidden;
 }
+
+.main-content:not(.home-page){
+    background: linear-gradient(
+        180deg,
+        #001a36 0px,
+        #001a36 50px,
+        #111111 350px
+    );
+}

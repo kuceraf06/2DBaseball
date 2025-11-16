@@ -1,0 +1,261 @@
+.leaderboard-page {
+    padding-bottom: 80px;
+    text-align: center;
+}
+
+.leaderboard-hero {
+    padding: 120px 20px 60px;
+}
+
+.leaderboard-hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #eee;
+    line-height: .8;
+}
+
+.leaderboard-hero h1 span {
+    font-family: 'Jersey 10', sans-serif;
+    font-size: 5rem;
+    margin: 0;
+    margin-left: 5px;
+    color: rgb(133, 133, 133);
+    -webkit-text-stroke: 1px #000000;
+    text-stroke: 1px #000000;
+}
+
+.leaderboard-hero p {
+    color: #bbb;
+    margin-top: 10px;
+    font-size: 1.15rem;
+}
+
+.leaderboard-summary {
+    margin: 40px auto 60px;
+    max-width: 900px;
+}
+
+.summary-card {
+    background: #1a1a1a;
+    padding: 25px;
+    border-radius: 16px;
+    max-width: 260px;
+    margin: 0 auto;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.summary-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.summary-card h3 {
+    color: #eee;
+    margin-bottom: 6px;
+}
+
+.summary-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #275ea7;
+}
+
+.leaderboard-table-section {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.leaderboard-table-section h2 {
+    color: #eee;
+    margin-bottom: 20px;
+}
+
+.leaderboard-table {
+    background: #1a1a1a;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.45);
+    overflow: hidden;
+}
+
+.table-header,
+.table-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 180px;
+    padding: 18px 20px;
+}
+
+.table-header {
+    background: #275ea7;
+    color: #fff;
+    font-weight: 700;
+}
+
+.table-row {
+    color: #ccc;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background .2s ease;
+}
+
+.table-row:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.col {
+    display: flex;
+    align-items: center;
+}
+
+.rank {
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+}
+
+.username {
+    justify-content: flex-start;
+    color: #ccc;
+    transition: color 0.25s ease;
+}
+
+.table-row .username:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.games {
+    justify-content: flex-end;
+    font-weight: 600;
+    color: #8fb7ff;
+    cursor: pointer;
+}
+
+.sortable {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.sort-icon {
+    transition: transform 0.25s ease;
+    font-size: 1.3rem;
+}
+
+.sort-icon.rotated {
+    transform: rotate(180deg);
+}
+
+.games:hover {
+    color: #fff;
+    transition: all .25s ease-in-out;
+}
+
+.show-more-btn {
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    color: #bbb;
+    margin-top: 15px;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+}
+
+.show-more-btn:hover {
+    color: white;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: rgb(17, 17, 17);
+    color: #eee;
+    padding: 12px 25px;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 12px;
+    position: relative;
+}
+
+.modal-content h2 {
+    margin-bottom: 5px;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+#modalHistoryList {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+#modalHistoryList::-webkit-scrollbar {
+    width: 8px;
+}
+
+#modalHistoryList::-webkit-scrollbar-track {
+    background: #111;
+    border-radius: 8px;
+}
+
+#modalHistoryList::-webkit-scrollbar-thumb {
+    background-color: #eee;
+    border-radius: 8px;
+    border: 2px solid #1a1a1a;
+}
+
+#modalHistoryList {
+    scrollbar-width: thin;
+    scrollbar-color: #eee #111;
+}
+
+#modalHistoryList div {
+    background: #f4f4f4;
+    color: rgb(17, 17, 17);
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+    .summary-card {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+}
+
+@media (max-width: 600px) {
+    .table-header,
+    .table-row {
+        grid-template-columns: 50px 1fr 145px;
+        padding: 15px 12px;
+    }
+}
+
+@media (max-width: 400px) {
+    .leaderboard-hero h1 {
+        font-size: 2.8rem;
+    }
+
+    .leaderboard-hero h1 span {
+        font-size: 4.5rem;
+    }
+}
