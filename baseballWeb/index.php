@@ -33,6 +33,14 @@ switch ($route) {
         $view = 'info';
         break;
 
+    case 'login':
+        $view = 'login';
+        break;
+
+    case 'register':
+        $view = 'register';
+        break;
+
     default:
         http_response_code(404);
         $view = '404';

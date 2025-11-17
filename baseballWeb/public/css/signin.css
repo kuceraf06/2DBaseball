@@ -1,0 +1,212 @@
+.auth-page {
+    min-height: 87vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.auth-box {
+    background: #1b1b1b;
+    padding: 35px 40px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 380px;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+
+.auth-box h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.auth-form .form-group {
+    margin-bottom: 20px;
+}
+
+.auth-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 12px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    color: #fff;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.auth-form input:focus {
+    border-color: #275ea7;
+}
+
+.auth-btn {
+    width: 100%;
+    padding: 12px;
+    background: #275ea7;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.auth-btn:hover {
+    background: #1d4b89;
+}
+
+.auth-btn:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 15px;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #275ea7;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-pass {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+}
+
+.icon-eye {
+    width: 22px;
+    height: 22px;
+    stroke: #275ea7;
+}
+
+.eye-open {
+    display: none;
+}
+
+.toggle-pass[data-state="open"] .eye-closed {
+    display: none;
+}
+
+.toggle-pass[data-state="open"] .eye-open {
+    display: block;
+}
+
+.error-msg {
+    color: #ff4d4d;
+    font-size: 13px;
+    margin-top: 3px;
+    display: block;
+    min-height: 16px;
+    opacity: 0;
+    transition: .2s;
+}
+
+input.error {
+    border-color: #ff4d4d !important;
+    animation: shake .25s ease;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+#password-strength {
+    color: #ccc;
+    font-size: 13px;
+    margin-top: 3px;
+    display: block;
+}
+
+.password-actions {
+    display: flex; 
+    justify-content: space-between; 
+    margin-top: 5px;
+}
+
+.gen-btn {
+    margin-top: 0px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding: 0px 0px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 14px;
+}
+
+.gen-btn:hover {
+    color: #3b82f6;
+}
+
+.forgot-password {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 14px;
+    color: #fff;
+    transition: all .2s ease-in-out;
+}
+
+.forgot-password:hover {
+    color: #3b82f6;
+}
+
+.remember-wrapper {
+    margin-bottom: 0px !important;
+}
+
+.remember-wrapper label {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.remember-wrapper input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    accent-color: #3b82f6;
+    border: none;
+    cursor: pointer;
+}
+
+.password-group {
+    margin-bottom: 0px !important;
+}
+
+
+

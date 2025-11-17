@@ -16,7 +16,7 @@
         </nav>
 
         <div class="header-right">
-            <a href="signIn.php" class="btn-signIn">Sign&nbsp;In</a>
+            <a href="login" class="btn-signIn">Sign&nbsp;In</a>
             <a href="download.php" class="btn-download">Download</a>
         </div>
         
