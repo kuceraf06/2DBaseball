@@ -196,17 +196,116 @@ input.error {
 }
 
 .remember-wrapper input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    margin-right: 5px;
-    accent-color: #3b82f6;
-    border: none;
-    cursor: pointer;
+    width: 16px !important;
+    height: 16px !important;
+    margin-right: 5px !important;
+    accent-color: #3b82f6 !important;
+    cursor: pointer !important;
+}
+
+.remember-wrapper input {
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
 }
 
 .password-group {
     margin-bottom: 0px !important;
 }
 
+.result-box {
+    padding: 10px;
+    text-align: center;
+    display: none;
+}
+
+.result-box.success {
+    background: transparent !important;
+    border: none !important;
+}
+
+.result-icon svg {
+    width: 70px;
+    height: 70px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.check-circle {
+    stroke: #4BB543;
+    stroke-width: 5;
+    fill: none;
+    stroke-dasharray: 175;
+    stroke-dashoffset: 175;
+    animation: drawCircle 0.8s ease-out forwards;
+}
+
+.check-mark {
+    stroke: #ffffff;
+    stroke-width: 5;
+    fill: none;
+    stroke-dasharray: 55;
+    stroke-dashoffset: 55;
+    animation: drawCheck 0.4s ease-out forwards;
+    animation-delay: 0.7s;
+}
+
+@keyframes drawCircle {
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes drawCheck {
+    to { stroke-dashoffset: 0; }
+}
+
+/* Animace pro error - bounce a fade */
+@keyframes errorBounce {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(0.95); }
+    75% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.result-box.error {
+    background: transparent;
+    animation: fadeIn 0.4s ease, errorBounce 0.5s ease;
+}
+
+.result-box.error .result-icon {
+    display: inline-block;
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+.result-box.error .result-link {
+    display: none;
+}
+
+.result-icon {
+    font-size: 40px;
+}
+
+.result-link {
+    display: inline-block;
+    margin-top: 6px;
+    color: #275ea7;
+    text-decoration: none;
+}
+
+.result-link:hover {
+    color: #3b82f6;
+}
+
+.hidden {
+    display: none !important;
+}
 
 

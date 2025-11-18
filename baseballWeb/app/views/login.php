@@ -41,7 +41,7 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/signin.css?v
 
             <div class="form-group remember-wrapper">
                 <label>
-                    <input type="checkbox" id="remember-me" tabindex="4">
+                    <input type="checkbox" id="remember-me" tabindex="4" name="remember-wrapper">
                     <span>Remember me</span>
                 </label>
             </div>

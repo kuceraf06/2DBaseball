@@ -8,6 +8,12 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/signin.css?v
 <main class="auth-page">
 
     <div class="auth-box">
+        <div id="register-result" class="result-box hidden">
+            <div class="result-icon"></div>
+            <p class="result-message"></p>
+            <a href="<?= $baseUrl ?>login" class="result-link">Go to Login</a>
+        </div>
+
         <h1>Create Account</h1>
 
         <form id="registerForm" class="auth-form" novalidate>
@@ -147,25 +153,75 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/signin.css?v
                 submitBtn.disabled = !allValid;
             }
 
-
             function validateRegister(e) {
                 e.preventDefault();
                 clearErrors();
 
                 let valid = true;
+
                 [username, email, pass, confirm].forEach(input => {
                     validateField(input);
                     if (input.classList.contains("error")) valid = false;
                 });
 
-                if (valid) {
-                    alert("Form is valid. (Backend not connected yet)");
-                }
+                if (!valid) return;
+
+                fetch("<?= $baseUrl ?>app/auth/register.php", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({
+                        username: username.value.trim(),
+                        email: email.value.trim(),
+                        password: pass.value
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+
+                    const box  = document.getElementById("register-result");
+                    const icon = box.querySelector(".result-icon");
+                    const msg  = box.querySelector(".result-message");
+
+                    box.style.display = "block";
+                    box.classList.remove("hidden", "success", "error");
+
+                    if (data.success) {
+                        box.classList.add("success");
+                        icon.innerHTML = `
+                            <svg viewBox="0 0 60 60">
+                                <!-- kruh má r=28, cx/cy=30, aby byl uvnitř celého SVG -->
+                                <circle class="check-circle" cx="30" cy="30" r="28"></circle>
+                                <path class="check-mark" d="M18 30 L28 40 L42 22"></path>
+                            </svg>
+                        `;
+
+                        msg.textContent = "Account successfully created!";
+                        box.querySelector(".result-link").style.display = "inline-block"; // ukázat link
+                    } else {
+                        box.classList.add("error");
+                        icon.innerHTML = "❌";
+                        msg.textContent = data.message || "Registration failed.";
+                        box.querySelector(".result-link").style.display = "none"; // schovat link
+                    }
+                })
+                .catch(() => {
+                    const box  = document.getElementById("register-result");
+                    const icon = box.querySelector(".result-icon");
+                    const msg  = box.querySelector(".result-message");
+
+                    box.style.display = "block";
+                    box.classList.remove("hidden", "success");
+                    box.classList.add("error");
+
+                    icon.innerHTML = "❌";
+                    msg.textContent = "Server error. Try again later.";
+                    box.querySelector(".result-link").style.display = "none"; // schovat link
+                });
             }
 
             function showStrength() {
                 const strength = document.getElementById("password-strength");
-                const v = passInput.value;
+                const v = pass.value;
 
                 let score = 0;
                 if (v.length >= 8) score++;
