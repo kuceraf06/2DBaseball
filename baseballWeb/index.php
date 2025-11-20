@@ -37,6 +37,10 @@ switch ($route) {
         $view = 'login';
         break;
 
+    case 'logout':
+        $view = 'logout';
+        break;
+
     case 'register':
         $view = 'register';
         break;

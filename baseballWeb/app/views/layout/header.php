@@ -1,3 +1,27 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+
+    if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
+        require __DIR__ . '/../db/connect.php';
+
+        $token = $_COOKIE['remember_me'];
+
+        $stmt = $db->prepare("
+            SELECT id, username FROM users 
+            WHERE remember_token = :token
+            AND remember_expires > NOW()
+        ");
+        $stmt->execute([":token" => $token]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+        }
+    }
+}
+?>
 <header class="main-header">
     <div class="container">
         <a href="<?= $baseUrl ?>" class="logo">
@@ -16,7 +40,23 @@
         </nav>
 
         <div class="header-right">
-            <a href="login" class="btn-signIn">Sign&nbsp;In</a>
+            <?php if (!isset($_SESSION['user_id'])): ?>
+                <!-- USER NOT LOGGED -->
+                <a href="login" class="btn-signIn">Sign&nbsp;In</a>
+
+            <?php else: ?>
+                <!-- USER LOGGED -->
+                <div class="user-menu">
+                    <button class="user-btn">
+                        <i class='bx bxs-user'></i>
+                    </button>
+
+                    <div class="user-dropdown">
+                        <a href="<?= $baseUrl ?>account">Account</a>
+                        <a href="<?= $baseUrl ?>logout">Logout <i class='bx bx-log-out'></i></a>
+                    </div>
+                </div>
+            <?php endif; ?>
             <a href="download.php" class="btn-download">Download</a>
         </div>
         
@@ -47,4 +87,20 @@
             body.classList.remove("no-scroll");
         }
     });
+
+    // USER MENU DROPDOWN
+    const userMenu = document.querySelector(".user-menu");
+    if (userMenu) {
+        userMenu.querySelector(".user-btn").addEventListener("click", () => {
+            userMenu.classList.toggle("open");
+        });
+
+        // klik mimo zavře menu
+        document.addEventListener("click", e => {
+            if (!userMenu.contains(e.target)) {
+                userMenu.classList.remove("open");
+            }
+        });
+    }
 </script>
+

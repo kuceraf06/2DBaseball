@@ -8,6 +8,10 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/signin.css?v
 <main class="auth-page">
 
     <div class="auth-box">
+        <div id="login-result" class="result-box hidden">
+            <div class="result-icon"></div>
+            <p class="result-message"></p>
+        </div>
         <h1>Sign In</h1>
 
         <form id="loginForm" class="auth-form" novalidate>
@@ -89,17 +93,53 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/signin.css?v
                 submitBtn.disabled = !loginId.value.trim() || !loginPass.value.trim();
             }
 
-            loginForm.addEventListener("submit", e => {
-                e.preventDefault();
-                clearErrors();
+        loginForm.addEventListener("submit", e => {
+            e.preventDefault();
+            clearErrors();
 
-                validateField(loginId);
-                validateField(loginPass);
+            validateField(loginId);
+            validateField(loginPass);
 
-                if (loginId.value.trim() && loginPass.value.trim()) {
-                    alert("Login is valid. (Backend not connected yet)");
+            if (submitBtn.disabled) return;
+
+            fetch("<?= $baseUrl ?>app/auth/login.php", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    loginId: loginId.value.trim(),
+                    password: loginPass.value,
+                    remember: document.getElementById("remember-me").checked
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const box = document.getElementById("login-result");
+                const icon = box.querySelector(".result-icon");
+                const msg  = box.querySelector(".result-message");
+
+                box.style.display = "block";
+                box.classList.remove("hidden", "error", "success");
+
+                if (data.success) {
+                    window.location.href = "<?= $baseUrl ?>";
+                    return;
+                } else {
+                    box.classList.add("error");
+                    icon.innerHTML = "❌";
+                    msg.textContent = data.message || "Login failed.";
                 }
+            })
+            .catch(() => {
+                const box = document.getElementById("login-result");
+                const icon = box.querySelector(".result-icon");
+                const msg  = box.querySelector(".result-message");
+
+                box.style.display = "block";
+                box.classList.add("error");
+                icon.innerHTML = "❌";
+                msg.textContent = "Server error.";
             });
+        });
 
             function showError(input, msg) {
                 const group = input.closest(".form-group");

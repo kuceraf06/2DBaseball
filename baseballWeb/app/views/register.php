@@ -189,19 +189,18 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/signin.css?v
                         box.classList.add("success");
                         icon.innerHTML = `
                             <svg viewBox="0 0 60 60">
-                                <!-- kruh má r=28, cx/cy=30, aby byl uvnitř celého SVG -->
                                 <circle class="check-circle" cx="30" cy="30" r="28"></circle>
                                 <path class="check-mark" d="M18 30 L28 40 L42 22"></path>
                             </svg>
                         `;
 
                         msg.textContent = "Account successfully created!";
-                        box.querySelector(".result-link").style.display = "inline-block"; // ukázat link
+                        box.querySelector(".result-link").style.display = "inline-block";
                     } else {
                         box.classList.add("error");
                         icon.innerHTML = "❌";
                         msg.textContent = data.message || "Registration failed.";
-                        box.querySelector(".result-link").style.display = "none"; // schovat link
+                        box.querySelector(".result-link").style.display = "none";
                     }
                 })
                 .catch(() => {
@@ -215,7 +214,7 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/signin.css?v
 
                     icon.innerHTML = "❌";
                     msg.textContent = "Server error. Try again later.";
-                    box.querySelector(".result-link").style.display = "none"; // schovat link
+                    box.querySelector(".result-link").style.display = "none";
                 });
             }
 

@@ -25,7 +25,7 @@
     </div>
 
     <div class="copyright">
-        © 2025 2D Baseball — All Rights Reserved
+        &copy; <?= date('Y'); ?> 2D Baseball — All Rights Reserved
     </div>
 </footer>
 

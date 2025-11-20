@@ -1,0 +1,16 @@
+# Node
+baseballGame/node_modules/
+baseballGame/npm-debug.log
+
+# Build output
+baseballGame/dist/
+baseballGame/out/
+baseballGame/*.exe
+
+# Editor settings
+baseballGame/.vscode/
+baseballGame/.DS_Store
+baseballGame/Thumbs.db
+
+# Environment
+baseballWeb/.env

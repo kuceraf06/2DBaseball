@@ -141,6 +141,72 @@ body {
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
+.user-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.user-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 35px;
+    border-radius: 50%;
+    margin-right: 5px;
+    height: 35px;
+    background-color: rgb(68, 68, 68);
+    transition: all .2s ease-in-out;
+}
+
+.user-btn:hover {
+    background-color: rgb(110, 110, 110);
+}
+
+.user-btn i {
+    color: #eee;
+    font-size: 23px;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(13, 13, 15, 0.8);
+    border-radius: 8px;
+    display: none;
+    padding: 10px;
+    min-width: 140px;
+}
+
+.user-menu.open .user-dropdown {
+    display: block;
+}
+
+.user-dropdown a {
+    display: block;
+    padding: 8px 10px;
+    color: #eee;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all .2s ease-in-out;
+}
+
+.user-dropdown i {
+    position: absolute;
+    font-size: 16px;
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
+.user-dropdown a:hover {
+    color: #bebebe;
+}
+
+.user-menu.open .user-dropdown {
+    display: block;
+}
+
 @media (max-width: 900px) {
     .main-nav {
         display: flex;
