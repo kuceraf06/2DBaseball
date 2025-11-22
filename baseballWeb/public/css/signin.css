@@ -305,7 +305,14 @@ input.error {
 }
 
 .hidden {
-    display: none !important;
+    display: none;
+}
+
+.reset {
+    margin-bottom: 15px;
+    color: #ccc;
+    font-size: 14px;
+    text-align: center;
 }
 
 

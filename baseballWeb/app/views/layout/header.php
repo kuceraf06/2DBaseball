@@ -41,19 +41,16 @@ if (session_status() === PHP_SESSION_NONE) {
 
         <div class="header-right">
             <?php if (!isset($_SESSION['user_id'])): ?>
-                <!-- USER NOT LOGGED -->
                 <a href="login" class="btn-signIn">Sign&nbsp;In</a>
 
             <?php else: ?>
-                <!-- USER LOGGED -->
                 <div class="user-menu">
                     <button class="user-btn">
                         <i class='bx bxs-user'></i>
                     </button>
-
                     <div class="user-dropdown">
                         <a href="<?= $baseUrl ?>account">Account</a>
-                        <a href="<?= $baseUrl ?>logout">Logout <i class='bx bx-log-out'></i></a>
+                        <a href="<?= $baseUrl ?>logout"  id="logoutLink">Logout <i class='bx bx-log-out'></i></a>
                     </div>
                 </div>
             <?php endif; ?>
@@ -73,6 +70,7 @@ if (session_status() === PHP_SESSION_NONE) {
     const nav = document.getElementById("mainNav");
     const body = document.body;
     const html = document.documentElement;
+    const logoutLink = document.getElementById("logoutLink");
 
     hamburger.addEventListener("click", () => {
         const isActive = nav.classList.toggle("active");
@@ -88,19 +86,27 @@ if (session_status() === PHP_SESSION_NONE) {
         }
     });
 
-    // USER MENU DROPDOWN
     const userMenu = document.querySelector(".user-menu");
     if (userMenu) {
         userMenu.querySelector(".user-btn").addEventListener("click", () => {
             userMenu.classList.toggle("open");
         });
 
-        // klik mimo zavře menu
         document.addEventListener("click", e => {
             if (!userMenu.contains(e.target)) {
                 userMenu.classList.remove("open");
             }
         });
     }
+
+    if (logoutLink) {
+        logoutLink.addEventListener("click", function(e) {
+            const confirmLogout = confirm("Are you sure you want to log out?");
+            if (!confirmLogout) {
+                e.preventDefault();
+            }
+        });
+    }
+
 </script>
 

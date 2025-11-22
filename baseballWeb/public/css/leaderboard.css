@@ -27,6 +27,7 @@
 .leaderboard-hero p {
     color: #bbb;
     margin-top: 10px;
+    font-style: italic;
     font-size: 1.15rem;
 }
 

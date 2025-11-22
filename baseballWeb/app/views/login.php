@@ -40,7 +40,7 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/signin.css?v
             </div>
 
             <div class="form-group">
-                <a href="#" class="forgot-password">Forgot password?</a>
+                <a href="forgot_password" class="forgot-password">Forgot password?</a>
             </div>
 
             <div class="form-group remember-wrapper">

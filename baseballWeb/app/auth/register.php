@@ -8,8 +8,8 @@ $projectRoot = preg_replace('#/app/auth$#', '/', $scriptDir);
 
 $rootUrl = $protocol . $host . $projectRoot;
 
-// URL na login
 $loginUrl = $rootUrl . 'login';
+$supportUrl = $rootUrl . 'support';
 
 header('Content-Type: application/json');
 
@@ -73,8 +73,8 @@ try {
                     <h2>Hello $username!</h2>
                     <p>Your account has been successfully created. We're excited to have you on board!</p>
                     <p>Click the button below to log in and start playing:</p>
-                    <a href='{$loginUrl}' class='btn'>Login to Your Account</a>
-                    <p>If you did not create this account, please ignore this email.</p>
+                    <a href='{$loginUrl}' target='_blank' class='btn'>Login to Your Account</a>
+                    <p>If you did not create this account, please ignore this email or contact out support team <a href='{$supportUrl}' target='_blank' class='btn'>here</a>.</p>
                 </div>
                 <div class='footer'>
                     &copy; " . date('Y') . " 2D Baseball — All Rights Reserved

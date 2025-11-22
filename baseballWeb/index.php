@@ -37,12 +37,24 @@ switch ($route) {
         $view = 'login';
         break;
 
+    case 'account':
+        $view = 'account';
+        break;    
+
     case 'logout':
         $view = 'logout';
         break;
 
     case 'register':
         $view = 'register';
+        break;
+
+    case 'forgot_password':
+        $view = 'forgot_password';
+        break;
+
+    case 'reset_password':
+        $view = 'reset_password';
         break;
 
     default:

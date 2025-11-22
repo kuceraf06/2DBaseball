@@ -17,9 +17,9 @@
         <div class="footer-col">
             <h4>Socials</h4>
             <ul class="socials">
-                <li><a href="#"><i class='bx bxl-facebook'></i></a></li>
-                <li><a href="#"><i class='bx bxl-instagram'></i></a></li>
-                <li><a href="#"><i class='bx bxl-youtube'></i></a></li>
+                <li><a href="https://www.facebook.com/2d.baseball.2025" target="_blank"><i class='bx bxl-facebook' target="_blank"></i></a></li>
+                <li><a href="https://www.instagram.com/2d.baseball" target="_blank"><i class='bx bxl-instagram'></i></a></li>
+                <li><a href="https://www.youtube.com/@2DBaseball25" target="_blank"><i class='bx bxl-youtube'></i></a></li>
             </ul>
         </div>
     </div>
@@ -28,4 +28,3 @@
         &copy; <?= date('Y'); ?> 2D Baseball — All Rights Reserved
     </div>
 </footer>
-
