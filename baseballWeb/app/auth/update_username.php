@@ -18,7 +18,6 @@ if ($newUsername === '') {
     exit;
 }
 
-// Získat aktuální údaje uživatele
 $stmt = $db->prepare("SELECT username, email FROM users WHERE id = ?");
 $stmt->execute([$userId]);
 $currentUser = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -28,7 +27,6 @@ if (!$currentUser) {
     exit;
 }
 
-// Zkontrolovat, zda uživatelské jméno už neexistuje u někoho jiného
 $stmt = $db->prepare("SELECT id FROM users WHERE username = ? AND id != ?");
 $stmt->execute([$newUsername, $userId]);
 if ($stmt->fetch()) {
@@ -36,7 +34,6 @@ if ($stmt->fetch()) {
     exit;
 }
 
-// Aktualizovat uživatelské jméno
 $stmt = $db->prepare("UPDATE users SET username = ? WHERE id = ?");
 $success = $stmt->execute([$newUsername, $userId]);
 

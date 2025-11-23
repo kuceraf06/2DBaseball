@@ -1,7 +1,6 @@
 <?php
 require __DIR__ . '/connect.php';
 
-// seznam emailů které chceš smazat
 $emails = [
     'filipkucera06@gmail.com',
     'clapzxdd74@gmail.com',

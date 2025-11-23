@@ -21,8 +21,13 @@ if (!$reset || strtotime($reset['expires']) < time()) {
 
 <main class="auth-page">
     <div class="auth-box">
+        <div id="login-result" class="result-box hidden">
+            <div class="result-icon"></div>
+            <p class="result-message"></p>
+            <a href="<?= $baseUrl ?>login" class="result-link">Go to Login</a>
+        </div>
         <h1>Reset Password</h1>
-        <form id="resetPasswordForm" novalidate>
+        <form id="resetPasswordForm" class="auth-form" novalidate>
             <input type="hidden" id="token" value="<?= htmlspecialchars($token) ?>">
             <div class="form-group">
                 <input type="password" id="password" placeholder="New Password" required>
@@ -34,7 +39,6 @@ if (!$reset || strtotime($reset['expires']) < time()) {
             </div>
             <button type="submit" class="auth-btn">Reset Password</button>
         </form>
-        <div id="resultMessage" class="result-box hidden"><p></p></div>
     </div>
 </main>
 
@@ -42,57 +46,127 @@ if (!$reset || strtotime($reset['expires']) < time()) {
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("resetPasswordForm");
     const tokenInput = document.getElementById("token");
-    const passwordInput = document.getElementById("password");
-    const passwordConfirmInput = document.getElementById("passwordConfirm");
-    const resultBox = document.getElementById("resultMessage");
-    const resultMsg = resultBox.querySelector("p");
 
-    function validatePasswords() {
-        const password = passwordInput.value.trim();
-        const confirm = passwordConfirmInput.value.trim();
-        if (password.length < 8) {
-            passwordInput.nextElementSibling.textContent = "Password must be at least 8 characters";
-            return false;
-        } else {
-            passwordInput.nextElementSibling.textContent = "";
-        }
-        if (password !== confirm) {
-            passwordConfirmInput.nextElementSibling.textContent = "Passwords do not match";
-            return false;
-        } else {
-            passwordConfirmInput.nextElementSibling.textContent = "";
-        }
-        return true;
+    const pass = document.getElementById("password");
+    const confirm = document.getElementById("passwordConfirm");
+
+    const resultBox = document.getElementById("login-result");
+    const resultIcon = resultBox.querySelector(".result-icon");
+    const resultMsg = resultBox.querySelector(".result-message");
+    const resultLink = resultBox.querySelector(".result-link");
+
+    function showError(input, msg) {
+        const group = input.closest(".form-group");
+        const errorMsg = group.querySelector(".error-msg");
+
+        input.classList.add("error");
+        errorMsg.textContent = msg;
+        errorMsg.style.opacity = 1;
     }
+
+    function clearFieldError(input) {
+        const group = input.closest(".form-group");
+        const errorMsg = group.querySelector(".error-msg");
+
+        input.classList.remove("error");
+        errorMsg.textContent = "";
+        errorMsg.style.opacity = 0;
+    }
+
+    function validateField(field) {
+        clearFieldError(field);
+
+        const passVal = pass.value.trim();
+        const confirmVal = confirm.value.trim();
+
+        if (field === pass) {
+            if (
+                passVal.length < 8 ||
+                !/[A-Z]/.test(passVal) ||
+                !/[0-9]/.test(passVal)
+            ) {
+                showError(pass, "Password must be 8+ chars, contain a number and uppercase.");
+            }
+        }
+
+        if (field === confirm || field === pass) {
+            if (confirmVal !== passVal) {
+                showError(confirm, "Passwords do not match.");
+            }
+        }
+    }
+
+    function validateBeforeSubmit() {
+        clearFieldError(pass);
+        clearFieldError(confirm);
+
+        let ok = true;
+
+        const passVal = pass.value.trim();
+        const confirmVal = confirm.value.trim();
+
+        if (
+            passVal.length < 8 ||
+            !/[A-Z]/.test(passVal) ||
+            !/[0-9]/.test(passVal)
+        ) {
+            showError(pass, "Password must be 8+ chars, contain a number and uppercase.");
+            ok = false;
+        }
+
+        if (confirmVal !== passVal) {
+            showError(confirm, "Passwords do not match.");
+            ok = false;
+        }
+
+        return ok;
+    }
+
+    [pass, confirm].forEach(input => {
+        input.addEventListener("input", () => validateField(input));
+        input.addEventListener("blur", () => validateField(input));
+    });
 
     form.addEventListener("submit", e => {
         e.preventDefault();
-        if (!validatePasswords()) return;
 
-        fetch("<?= $baseUrl ?>/app/auth/reset_password_process.php", {
+        if (!validateBeforeSubmit()) return;
+
+        fetch("<?= $baseUrl ?>app/auth/reset_password_process.php", {
             method: "POST",
-            headers: {"Content-Type": "application/x-www-form-urlencoded"},
-            body: "token=" + encodeURIComponent(tokenInput.value.trim()) +
-                  "&password=" + encodeURIComponent(passwordInput.value.trim()) +
-                  "&passwordConfirm=" + encodeURIComponent(passwordConfirmInput.value.trim())
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body:
+                "token=" + encodeURIComponent(tokenInput.value.trim()) +
+                "&password=" + encodeURIComponent(pass.value.trim()) +
+                "&passwordConfirm=" + encodeURIComponent(confirm.value.trim())
         })
         .then(res => res.json())
         .then(data => {
-            resultBox.classList.remove("hidden");
-            if (data.success) {
-                resultBox.classList.add("success");
-                resultMsg.textContent = "Password has been reset successfully.";
-                form.style.display = "none";
-            } else {
+
+        resultBox.classList.remove("hidden", "success", "error");
+
+        if (data.success) {
+            window.location.href = "<?= $baseUrl ?>login";
+            return;
+        } else {
                 resultBox.classList.add("error");
+
+                resultIcon.innerHTML = "❌";
                 resultMsg.textContent = data.message || "Failed to reset password.";
+                resultLink.style.display = "none";
             }
-        })
-        .catch(err => {
-            console.error(err);
+
             resultBox.classList.remove("hidden");
+        })
+        .catch(() => {
+            resultBox.classList.remove("hidden", "success", "error");
             resultBox.classList.add("error");
+
+            resultIcon.innerHTML = "❌";
             resultMsg.textContent = "Server error.";
+            resultLink.style.display = "none";
+
+            resultBox.classList.remove("hidden");
         });
     });
 });
