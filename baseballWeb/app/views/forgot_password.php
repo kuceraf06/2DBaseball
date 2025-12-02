@@ -77,6 +77,8 @@ document.addEventListener("DOMContentLoaded", () => {
             box.style.display = "block";
             box.classList.remove("hidden", "success", "error");
 
+            box.scrollIntoView({ behavior: "smooth", block: "center" });
+
             if (data.success) {
                 box.classList.add("success");
                 icon.innerHTML = `
@@ -104,6 +106,8 @@ document.addEventListener("DOMContentLoaded", () => {
             box.style.display = "block";
             box.classList.remove("hidden", "success");
             box.classList.add("error");
+            
+            box.scrollIntoView({ behavior: "smooth", block: "center" });
 
             icon.innerHTML = "❌";
             msg.textContent = "Server error. Try again later.";

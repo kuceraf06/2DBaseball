@@ -1,0 +1,76 @@
+window.api.getUsers().then(users => {
+  console.log("Users from DB:", users);
+
+  if (users.length > 0) {
+    document.getElementById("userName").innerText = users[0].username;
+    document.getElementById("userID").innerText = users[0].id;
+  }
+});
+
+const startScreen = document.getElementById('startScreen');
+const gameWrapper = document.querySelector('.gameWrapper');
+
+const playBtn = startScreen.querySelector('#playBtn');
+const aboutBtn = startScreen.querySelector('a > .startBtn');
+const startLogoutBtn = document.getElementById('startLogoutBtn');
+const logoutModal = document.getElementById('confirmLogoutModal');
+const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
+const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
+const exitBtn = startScreen.querySelectorAll('.startBtn')[3];
+
+playBtn.addEventListener('click', () => {
+  startScreen.style.display = 'none';
+  gameWrapper.style.display = 'block';
+});
+
+startLogoutBtn.addEventListener('click', () => {
+  logoutModal.style.display = 'flex';
+});
+
+cancelLogoutBtn.addEventListener('click', () => {
+  logoutModal.style.display = 'none';
+});
+
+confirmLogoutBtn.addEventListener('click', () => {
+  logoutModal.style.display = 'none';
+  gameWrapper.style.display = 'none';
+  startScreen.style.display = 'flex';
+});
+
+exitBtn.addEventListener('click', () => {
+  window.api.quitApp();
+});
+
+document.getElementById('minimizeBtn').addEventListener('click', () => {
+  window.api.minimize();
+});
+
+document.getElementById('desktopBtn').addEventListener('click', () => {
+  window.api.toggleFullscreen();
+});
+
+document.getElementById('closeBtn').addEventListener('click', () => {
+  window.api.close();
+});
+
+document.getElementById('exitAppBtn').addEventListener('click', () => {
+  window.api.quitApp();
+});
+
+const startExitBtn = startScreen.querySelector('.startBtn:last-child');
+if (startExitBtn) {
+  startExitBtn.addEventListener('click', () => {
+    window.api.quitApp();
+  });
+}
+
+const windowModeSelect = document.getElementById('windowModeSelect');
+if (windowModeSelect) {
+  windowModeSelect.addEventListener('change', (e) => {
+    window.api.setWindowMode(e.target.value);
+  });
+
+  window.api.getWindowMode().then(mode => {
+    windowModeSelect.value = mode;
+  });
+}

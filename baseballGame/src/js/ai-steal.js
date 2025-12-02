@@ -13,7 +13,7 @@ function aiSteal(force = false) {
 
     const rand = Math.random() * 100;
 
-    if (bases[0] && bases[1] && !bases[2] && rand < 100) {
+    if (bases[0] && bases[1] && !bases[2] && rand < 10) {
         stealAttempt2B = true;
         stealAttempt3B = true;
         stealBtn2B.classList.add('active-steal');
@@ -24,12 +24,11 @@ function aiSteal(force = false) {
             stealBtn2B.classList.remove('active-steal');
             stealBtn3B.classList.remove('active-steal');
         });
-        canStealThisPitch = false; // po stealu se čeká na nový nadhoz
+        canStealThisPitch = false;
         return;
     }
 
-    // 1B → 2B
-    if (bases[0] && !bases[1] && rand < 100)  {
+    if (bases[0] && !bases[1] && rand < 30)  {
         stealAttempt2B = true;
         stealBtn2B.classList.add('active-steal');
         startSteal1B2B(() => {
@@ -39,8 +38,7 @@ function aiSteal(force = false) {
         canStealThisPitch = false;
     }
 
-    // 2B → 3B
-    if (bases[1] && !bases[2] && rand < 100)  {
+    if (bases[1] && !bases[2] && rand < 20)  {
         stealAttempt3B = true;
         stealBtn3B.classList.add('active-steal');
         startSteal2B3B(() => {
@@ -51,11 +49,10 @@ function aiSteal(force = false) {
     }
 }
 
-// Při startu nadhozu povolíme steal
 const origStartPitch = startPitch;
 startPitch = function () {
     origStartPitch();
-    canStealThisPitch = true; // nový nadhoz → AI může krást
+    canStealThisPitch = true;
     setTimeout(() => {
         aiSteal();
     }, 50);

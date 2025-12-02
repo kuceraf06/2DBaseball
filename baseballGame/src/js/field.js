@@ -123,76 +123,6 @@ function drawWarningTrack() {
   ctx.fill();
 }
 
-/*function drawTabula() {
-  const home = { x: centerX, y: homePlateY };
-  const plotRadius = 400;
-  const tabulaDepth = 10;
-  const tabulaWidth = 110;
-  const tabulaHeight = 80;
-  const angle = -Math.PI / 2;
-
-  const tabulaX = home.x + Math.cos(angle) * (plotRadius + tabulaDepth);
-  const tabulaY = home.y + Math.sin(angle) * (plotRadius + tabulaDepth);
-
-  ctx.save();
-  ctx.translate(tabulaX, tabulaY);
-
-  ctx.strokeStyle = '#555a5f';
-  ctx.lineWidth = 6;
-  const poleHeight = 11;
-  const poleOffsetX = tabulaWidth / 2 - 20;
-
-  ctx.beginPath();
-  ctx.moveTo(-poleOffsetX, 0);
-  ctx.lineTo(-poleOffsetX, poleHeight);
-  ctx.moveTo(poleOffsetX, 0);
-  ctx.lineTo(poleOffsetX, poleHeight);
-  ctx.stroke();
-
-  const grad = ctx.createLinearGradient(-tabulaWidth/2, -tabulaHeight, tabulaWidth/2, 0);
-  grad.addColorStop(0, '#d0d4d8');
-  grad.addColorStop(0.5, '#8c8f92');
-  grad.addColorStop(1, '#d0d4d8');
-
-  ctx.fillStyle = grad;
-  ctx.fillRect(-tabulaWidth / 2, -tabulaHeight, tabulaWidth, tabulaHeight);
-
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-  ctx.beginPath();
-  ctx.moveTo(-tabulaWidth / 2, -tabulaHeight);
-  ctx.lineTo(-tabulaWidth / 2 + 30, -tabulaHeight);
-  ctx.lineTo(tabulaWidth / 2, 0);
-  ctx.lineTo(tabulaWidth / 2 - 30, 0);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.strokeStyle = '#666a6f';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(-tabulaWidth / 2, -tabulaHeight, tabulaWidth, tabulaHeight);
-
-  ctx.fillStyle = '#222';
-  ctx.textBaseline = 'top';
-  ctx.font = 'bold 14px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('SCOREBOARD', 0, -tabulaHeight + 8);
-
-  const team1 = 'Tým A';
-  const team2 = 'Tým B';
-  const score1 = 3;
-  const score2 = teamBScore;
-
-  ctx.font = 'bold 12px sans-serif';
-  ctx.textAlign = 'left';
-  ctx.fillText(team1, -tabulaWidth / 2 + 10, -tabulaHeight / 2);
-  ctx.fillText(score1.toString(), -tabulaWidth / 2 + 25, -tabulaHeight / 2 + 16);
-
-  ctx.textAlign = 'right';
-  ctx.fillText(team2, tabulaWidth / 2 - 10, -tabulaHeight / 2);
-  ctx.fillText(score2.toString(), -tabulaWidth / 2 - 25 + tabulaWidth, -tabulaHeight / 2 + 16);
-
-  ctx.restore();
-}*/
-
 function drawBattersBoxes() {
   const boxWidth = 20;
   const boxHeight = 50;
@@ -240,7 +170,7 @@ function drawDugouts() {
 
   const home = { x: centerX, y: homePlateY };
 
-  function drawSingleDugout(baseX, baseY, angle, flip = false) {
+  function drawSingleDugout(baseX, baseY, angle, benchImage, flip = false) {
     ctx.save();
     ctx.translate(baseX, baseY);
     ctx.rotate(angle + (flip ? Math.PI : 0));
@@ -258,23 +188,23 @@ function drawDugouts() {
     ctx.fillStyle = '#5d4037';
     ctx.fillRect(5, dugoutHeight - benchHeight - roofHeight - 1, dugoutWidth - 10, benchHeight);
 
-    if (benchPlayerImg.complete) {
+    if (benchImage && benchImage.complete) {
       const playerCount = 9;
       const spacing = (dugoutWidth - 15) / playerCount;
-
+  
       for (let i = 0; i < playerCount; i++) {
-        const x = 5 + i * spacing;
-        const y = dugoutHeight - 26;
-        const w = 15;
-        const h = 20;
-
-        ctx.save();
-        ctx.translate(x + w / 2, y + h / 2);
-        ctx.rotate(Math.PI);
-        ctx.drawImage(benchPlayerImg, -w / 2, -h / 2, w, h);
-        ctx.restore();
+          const x = 5 + i * spacing;
+          const y = dugoutHeight - 26;
+          const w = 15;
+          const h = 20;
+  
+          ctx.save();
+          ctx.translate(x + w / 2, y + h / 2);
+          ctx.rotate(Math.PI);
+          ctx.drawImage(benchImage, -w / 2, -h / 2, w, h);
+          ctx.restore();
       }
-    }
+  }  
 
     ctx.restore();
   }
@@ -282,12 +212,12 @@ function drawDugouts() {
   const angleLeft = Math.PI * 1.25;
   const leftX = home.x + Math.cos(angleLeft) * 3 * offset;
   const leftY = home.y + Math.sin(angleLeft) * 1.5 * offset;
-  drawSingleDugout(leftX, leftY, angleLeft, true);
+  drawSingleDugout(leftX, leftY, angleLeft, benchPlayerBImg, true);
 
   const angleRight = Math.PI * 1.75;
   const rightX = home.x + Math.cos(angleRight) * 2 * offset;
   const rightY = home.y + Math.sin(angleRight) * 0.5 * offset;
-  drawSingleDugout(rightX, rightY, angleRight);
+  drawSingleDugout(rightX, rightY, angleRight, benchPlayerImg, false);
       
   dugoutLeftPos = { x: leftX, y: leftY };
   dugoutRightPos = { x: rightX, y: rightY };

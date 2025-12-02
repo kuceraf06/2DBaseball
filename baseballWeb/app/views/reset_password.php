@@ -144,6 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
 
         resultBox.classList.remove("hidden", "success", "error");
+        
+        box.scrollIntoView({ behavior: "smooth", block: "center" });
 
         if (data.success) {
             window.location.href = "<?= $baseUrl ?>login";
@@ -161,6 +163,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(() => {
             resultBox.classList.remove("hidden", "success", "error");
             resultBox.classList.add("error");
+            
+            box.scrollIntoView({ behavior: "smooth", block: "center" });
 
             resultIcon.innerHTML = "❌";
             resultMsg.textContent = "Server error.";

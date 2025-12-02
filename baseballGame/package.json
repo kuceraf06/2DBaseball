@@ -7,7 +7,13 @@
     "start": "electron .",
     "dist": "electron-builder"
   },
-  "keywords": ["2D baseball", "baseball game", "sport game", "pixel art", "baseball simulator"],
+  "keywords": [
+    "2D baseball",
+    "baseball game",
+    "sport game",
+    "pixel art",
+    "baseball simulator"
+  ],
   "author": "Filip",
   "license": "ISC",
   "type": "commonjs",
@@ -31,5 +37,8 @@
       "icon": "src/images/favicon.ico",
       "signAndEditExecutable": false
     }
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.5.0"
   }
 }

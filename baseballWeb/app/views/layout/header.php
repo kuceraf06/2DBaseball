@@ -3,15 +3,16 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 
     if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_me'])) {
-        require __DIR__ . '/../db/connect.php';
+        require __DIR__ . '/../../db/connect.php';
 
         $token = $_COOKIE['remember_me'];
 
         $stmt = $db->prepare("
             SELECT id, username FROM users 
             WHERE remember_token = :token
-            AND remember_expires > NOW()
+            AND remember_expires > CURRENT_TIMESTAMP
         ");
+    
         $stmt->execute([":token" => $token]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

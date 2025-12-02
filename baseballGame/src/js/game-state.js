@@ -90,10 +90,56 @@ function addOut() {
     }, 800);
   }
 }
+const _stateTransTimers = { hold: null, out: null, reset: null };
+
+function clearStateTransTimers() {
+  clearTimeout(_stateTransTimers.hold);
+  clearTimeout(_stateTransTimers.out);
+  clearTimeout(_stateTransTimers.reset);
+  _stateTransTimers.hold = _stateTransTimers.out = _stateTransTimers.reset = null;
+}
+
+function showStateTransition(text, holdMs = 1200) {
+  const overlay = document.getElementById('stateTransitionOverlay');
+  const textEl = document.getElementById('stateTransitionText');
+  if (!overlay || !textEl) return;
+
+  clearStateTransTimers();
+  overlay.classList.remove('in', 'out');
+
+  void overlay.offsetWidth;
+
+  textEl.textContent = text;
+
+  overlay.classList.add('in');
+
+  _stateTransTimers.hold = setTimeout(() => {
+    overlay.classList.remove('in');
+    overlay.classList.add('out');
+
+    _stateTransTimers.out = setTimeout(() => {
+      overlay.classList.remove('out');
+      overlay.style.transform = 'translate(120vw, 120vh)';
+      overlay.style.opacity = '0';
+      _stateTransTimers.reset = setTimeout(() => {
+        overlay.style.transform = '';
+        overlay.style.opacity = '';
+      }, 20);
+    }, 600);
+  }, holdMs + 300);
+}
 
 function switchSides() {
+  const nextState = gameState === 'defense' ? 'offense' : 'defense';
+
+  if (nextState === 'offense') {
+    showStateTransition("NOW YOU GO HIT!");
+  } else {
+    showStateTransition("NOW YOU GO PITCH!");
+  }
+
   outs = 0;
-  gameState = gameState === 'defense' ? 'offense' : 'defense';
+  gameState = nextState;
   aiBattingEnabled = gameState === 'defense';
 
   resetCount();

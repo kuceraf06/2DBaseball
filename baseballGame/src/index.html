@@ -34,7 +34,7 @@
       <h2>Main Menu</h2>
       <button id="closeMenuBtn" class="menuBtn">Play <i class='bx bx-play-circle'></i></button>
       <button id="menuSettingsBtn" class="menuBtn">Settings <i class='bx bx-cog'></i></button>
-      <a href="#" target="_blank"><button id="menuSettingsBtn" class="menuBtn">About <i class='bx bx-right-top-arrow-circle arrow-up'></i></button></a>
+      <a href="../baseballWeb/about" target="_blank"><button id="menuSettingsBtn" class="menuBtn">About <i class='bx bx-right-top-arrow-circle arrow-up'></i></button></a>
       <button id="exitAppBtn" class="menuBtn">Exit <i class='bx bx-log-out'></i></button>
       <p>Version: 1.0.0</p>
       <button class="closeModalBtn" id="closeMenuCross">&times;</button>
@@ -117,8 +117,8 @@
   <div id="userModal" class="modal">
     <div class="modalContent userContent">
       <h2>User Account</h2>
-      <p><strong>Name:</strong> <span id="userName">Filip</span></p>
-      <p><strong>Account ID:</strong> <span id="userID">123456</span></p>
+      <p><strong>Username:</strong> <span id="userName"></span></p>
+      <p><strong>Account ID:</strong> <span id="userID"></span></p>
       <button id="logoutBtn" class="menuBtn">Logout <i class='bx bx-log-out'></i></button>
       <button class="closeModalBtn" id="closeUserModal">&times;</button>
     </div>
@@ -159,7 +159,26 @@
         <button id="confirmExitBtn" class="confrimBtn">Exit</button>
       </div>
     </div>
-  </div>  
+  </div>
+
+  <div id="confirmLogoutModal" class="modal">
+    <div class="modalBox">
+      <p>
+        Do you really want to logout?
+      </p>
+      <div class="confrimButtons">
+        <button id="cancelLogoutBtn" class="confrimBtn">Cancel</button>
+        <button id="confirmLogoutBtn" class="confrimBtn">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="startScreen" class="startMenu">
+    <button id="playBtn" class="startBtn">Play <i class='bx bx-play-circle'></i></button>
+    <a href="../baseballWeb/about" target="_blank"><button class="startBtn">About  <i class='bx bx-right-top-arrow-circle arrow-start'></i></button></a>
+    <button id="startLogoutBtn" class="startBtn">Logout <i class='bx bx-log-out'></i></button>
+    <button class="startBtn">Exit <i class='bx bx-x cross'></i></button>
+  </div>
 
   <div class="gameWrapper">
   <div id="gameContainer" class="gameContainer">
@@ -195,7 +214,11 @@
       <button id="toggleStateBtn" class="stateBtn">Toggle Off/Def</button> 
     </div>
   </div>
+  <div id="stateTransitionOverlay" aria-hidden="true">
+    <span id="stateTransitionText"></span>
+  </div>  
 
+  <script src="js/game-start.js"></script>
   <script src="js/game-setup.js"></script>
   <script src="js/game-state.js"></script>
   <script src="js/scoreboard.js"></script>

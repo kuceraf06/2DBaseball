@@ -42,8 +42,6 @@ let savedMutedBeforeModal;
 
 let currentExitAction = null;
 
-// Make sure keys are available on window as well so other scripts can read them:
-// keep local let-s in sync with window.*
 window.stopPitchKey = stopPitchKey;
 window.swingKey = swingKey;
 window.settingsToggleKey = settingsToggleKey;
@@ -53,10 +51,8 @@ window.throwTo3BKey = throwTo3BKey;
 
 function normalizeKeyName(k) {
   if (k === undefined || k === null) return k;
-  // normalize common variants (Space, spacebar, ' ' -> Space; Esc -> Escape)
   if (k === ' ' || k === 'Spacebar') return 'Space';
   if (k.toLowerCase && k.toLowerCase() === 'esc') return 'Escape';
-  // Some browsers return 'Space' already, digits '1' etc. Keep as-is.
   return k;
 }
 
@@ -88,12 +84,10 @@ function setKeyVar(name, value) {
       window.throwTo3BKey = v;
       break;
     default:
-      // also set on window for unknown names
       window[name] = v;
   }
 }
 
-// Load saved keybindings and volume early so other modules get correct values immediately
 (function loadSavedKeyBindings() {
   try {
     const mapping = {
@@ -116,10 +110,8 @@ function setKeyVar(name, value) {
     if (sv !== null) globalVolume = parseFloat(sv);
     if (sm !== null) isMuted = JSON.parse(sm);
 
-    // Make sure sounds reflect saved settings (if allSounds exists)
     if (typeof applyVolumeSettings === 'function') applyVolumeSettings();
 
-    // notify other modules that controls are available
     try {
       const ev = new CustomEvent('controls-updated', {
         detail: {
@@ -129,7 +121,6 @@ function setKeyVar(name, value) {
       window.dispatchEvent(ev);
     } catch (err) {}
   } catch (err) {
-    // silent fail if localStorage not accessible
   }
 })();
 
@@ -187,20 +178,17 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmExitModal.style.display = 'flex';
   }
 
-  // --- CANCEL BUTTON ---
   cancelExitBtn.onclick = () => {
     confirmExitModal.style.display = 'none';
     currentExitAction = null;
   };
 
-  // --- CONFIRM BUTTON ---
   confirmExitBtn.onclick = () => {
     confirmExitModal.style.display = 'none';
     if (typeof currentExitAction === 'function') currentExitAction();
     currentExitAction = null;
   };
 
-  // ========= MENU OVLÁDÁNÍ =========
   function openMenu() {
     menuModal.style.display = 'flex';
     menuOpen = true;
@@ -238,7 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Tlačítko z menu otevře settings
   if (menuSettingsBtn) {
     menuSettingsBtn.addEventListener('click', () => {
       closeMenu();
@@ -270,10 +257,8 @@ document.addEventListener('DOMContentLoaded', () => {
       showConfirmExitModal(
         'Do you really want to logout? <br>Game progress will be lost.',
         () => {
-          // --- LOGIKA ODHLÁŠENÍ ---
-          logoutUser(); // smaže tokeny, proměnné, atd.
+          logoutUser();
 
-          // --- UKONČENÍ HRY ---
           try {
             const { ipcRenderer } = require('electron');
             ipcRenderer.send('app-quit');
@@ -286,7 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ========= EXIT BUTTON (Electron) =========
   try {
     const { ipcRenderer } = require('electron');
 
@@ -338,25 +322,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (desktopBtn) {
     const desktopIcon = desktopBtn.querySelector('i');
-    let isFullscreen = true; // počáteční stav
+    let isFullscreen = true;
 
     function updateFullscreenIcon() {
       if (isFullscreen) {
-        desktopIcon.className = 'bx bx-exit-fullscreen'; // fullscreen aktivní
+        desktopIcon.className = 'bx bx-exit-fullscreen';
       } else {
-        desktopIcon.className = 'bx bx-fullscreen'; // fullscreen vypnutý
+        desktopIcon.className = 'bx bx-fullscreen';
       }
     }
 
-    // kliknutí na tlačítko přepíná stav
     desktopBtn.addEventListener('click', () => {
-      ipcRenderer.send('window-hide'); // main process přepne fullscreen/zmenšené
+      ipcRenderer.send('window-hide');
 
-      isFullscreen = !isFullscreen; // přepnutí stavu
-      updateFullscreenIcon();       // aktualizace ikony
+      isFullscreen = !isFullscreen;
+      updateFullscreenIcon();
     });
 
-    // inicialní nastavení ikony
     updateFullscreenIcon();
   }
 
@@ -380,30 +362,25 @@ document.addEventListener('DOMContentLoaded', () => {
       active === throwTo2BKeyInput ||
       active === throwTo3BKeyInput
     ) return;
-  
-    // blokace ESC při otevřených potvrzovacích modalech
+
     const confirmCloseVisible = document.getElementById('confirmCloseModal')?.style.display === 'flex';
     const confirmResetVisible = document.getElementById('confirmResetModal')?.style.display === 'flex';
     const confirmExitVisible = document.getElementById('confirmExitModal')?.style.display === 'flex';
     if (confirmCloseVisible || confirmResetVisible || confirmExitVisible) return;
 
-    // normalize to respect custom binds
     const keyName = normalizeKeyName(e.key);
 
     if (keyName === settingsToggleKey) {
-      // --- PRIORITA: pokud je otevřen profil hráče, zavři ho ---
       if (userModal && userModal.style.display === 'flex') {
         closeUserModal();
         return;
       }
 
-      // --- POTOM: pokud je otevřeno settings, zavři je ---
       if (settingsOpen) {
         closeSettings();
         return;
       }
 
-      // --- POTOM: toggle menu ---
       toggleMenu();
     }
   });
@@ -421,12 +398,9 @@ document.addEventListener('DOMContentLoaded', () => {
       confirmResetModal.style.display = 'none';
     });
   
-    // IMPORTANT: change here so "Reset binds" does NOT immediately persist.
-    // Instead we fill the inputs and set the temporary new* variables so the user must click "Save" to persist.
     confirmResetBtn.addEventListener('click', () => {
       confirmResetModal.style.display = 'none';
 
-      // --- prepare defaults but DO NOT call setKeyVar or write to localStorage ---
       const defaults = {
         stopPitchKey: 'Space',
         swingKey: 'Space',
@@ -436,7 +410,6 @@ document.addEventListener('DOMContentLoaded', () => {
         settingsToggleKey: 'Escape'
       };
 
-      // set the "new" variables so saveSettings() will persist them when user clicks Save
       newStopPitchKey = defaults.stopPitchKey;
       newSwingKey = defaults.swingKey;
       newThrowTo1BKey = defaults.throwTo1BKey;
@@ -444,7 +417,6 @@ document.addEventListener('DOMContentLoaded', () => {
       newThrowTo3BKey = defaults.throwTo3BKey;
       newSettingsToggleKey = defaults.settingsToggleKey;
 
-      // update input fields to reflect the reset (visual only until Save)
       if (stopPitchKeyInput) stopPitchKeyInput.value = newStopPitchKey;
       if (swingKeyInput) swingKeyInput.value = newSwingKey;
       if (throwTo1BKeyInput) throwTo1BKeyInput.value = newThrowTo1BKey;
@@ -452,17 +424,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (throwTo3BKeyInput) throwTo3BKeyInput.value = newThrowTo3BKey;
       if (settingsToggleKeyInput) settingsToggleKeyInput.value = newSettingsToggleKey;
 
-      // mark unsaved so the user must press Save; closing will trigger the "unsaved changes" dialog
       unsavedChanges = true;
     });
   }  
 
-  // ========= KEYBINDY =========
   function setupKeyInput(input, savedKeyName, defaultKey, onChange) {
     const saved = localStorage.getItem(savedKeyName);
     let keyVar = normalizeKeyName(saved || defaultKey);
 
-    // ensure globals/window are updated at initialization
     setKeyVar(savedKeyName, keyVar);
 
     function displayKey(k) {
@@ -474,7 +443,6 @@ document.addEventListener('DOMContentLoaded', () => {
     input.addEventListener('focus', () => { if (input) input.value = 'Press key'; });
     input.addEventListener('keydown', e => {
       e.preventDefault();
-      // normalize captured key
       const rawKey = e.key;
       const newKey = normalizeKeyName(rawKey);
       onChange(newKey);
@@ -490,7 +458,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return { get: () => keyVar, set: k => { keyVar = normalizeKeyName(k); setKeyVar(savedKeyName, keyVar); } };
   }
 
-  // Stop pitch
   if (stopPitchKeyInput) {
     setupKeyInput(stopPitchKeyInput, 'stopPitchKey', stopPitchKey, (v) => {
       if (v) newStopPitchKey = v;
@@ -498,7 +465,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Swing
   if (swingKeyInput) {
     setupKeyInput(swingKeyInput, 'swingKey', swingKey, (v) => {
       if (v) newSwingKey = v;
@@ -506,7 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Throw 1B
   if (throwTo1BKeyInput) {
     setupKeyInput(throwTo1BKeyInput, 'throwTo1BKey', throwTo1BKey, (v) => {
       if (v) newThrowTo1BKey = v;
@@ -514,7 +479,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Throw 2B
   if (throwTo2BKeyInput) {
     setupKeyInput(throwTo2BKeyInput, 'throwTo2BKey', throwTo2BKey, (v) => {
       if (v) newThrowTo2BKey = v;
@@ -522,7 +486,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Throw 3B
   if (throwTo3BKeyInput) {
     setupKeyInput(throwTo3BKeyInput, 'throwTo3BKey', throwTo3BKey, (v) => {
       if (v) newThrowTo3BKey = v;
@@ -530,7 +493,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Settings toggle key (zatím neotvírá settings přes esc!)
   if (settingsToggleKeyInput) {
     setupKeyInput(settingsToggleKeyInput, 'settingsToggleKey', settingsToggleKey, (v) => {
       if (v) newSettingsToggleKey = v;
@@ -538,7 +500,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ========= VOLUME =========
   const savedVolume = localStorage.getItem('globalVolume');
   const savedMuted = localStorage.getItem('isMuted');
   if (savedVolume !== null) globalVolume = parseFloat(savedVolume);
@@ -584,7 +545,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ========= SETTINGS MODAL =========
   async function openSettings() {
     settingsModal.style.display = 'flex';
     settingsOpen = true;
@@ -594,8 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
         const { ipcRenderer } = require('electron');
         savedWindowModeBeforeModal = await ipcRenderer.invoke('get-window-mode');
-        
-        // zde nastav aktuální hodnotu selectu
+
         const windowModeSelect = document.getElementById('windowModeSelect');
         if (windowModeSelect && savedWindowModeBeforeModal) {
             windowModeSelect.value = savedWindowModeBeforeModal;
@@ -635,7 +594,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (cancelCloseBtn) cancelCloseBtn.addEventListener('click', () => confirmCloseModal.style.display = 'none');
   if (confirmCloseBtn) confirmCloseBtn.addEventListener('click', () => {
-    // --- obnov keybindy z localStorage nebo původních proměnných ---
     setKeyVar('stopPitchKey', localStorage.getItem('stopPitchKey') || 'Space');
     setKeyVar('swingKey', localStorage.getItem('swingKey') || 'Space');
     setKeyVar('throwTo1BKey', localStorage.getItem('throwTo1BKey') || '1');
@@ -658,8 +616,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (err) {
       console.warn('Electron IPC not available for restoring window mode:', err);
     }
-  
-    // --- reset všech nových dočasných kláves ---
+
     newStopPitchKey = null;
     newSwingKey = null;
     newThrowTo1BKey = null;
@@ -667,7 +624,6 @@ document.addEventListener('DOMContentLoaded', () => {
     newThrowTo3BKey = null;
     newSettingsToggleKey = null;
   
-    // --- zbytek původního kódu ---
     globalVolume = savedVolumeBeforeModal;
     isMuted = savedMutedBeforeModal;
     if (volumeSlider) volumeSlider.value = globalVolume;
@@ -691,7 +647,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (newThrowTo3BKey !== null) { setKeyVar('throwTo3BKey', newThrowTo3BKey); localStorage.setItem('throwTo3BKey', throwTo3BKey); newThrowTo3BKey = null; }
     if (newSettingsToggleKey !== null) { setKeyVar('settingsToggleKey', newSettingsToggleKey); localStorage.setItem('settingsToggleKey', settingsToggleKey); newSettingsToggleKey = null; }
 
-    // also persist current keys in case nothing changed but they weren't in localStorage
     localStorage.setItem('stopPitchKey', stopPitchKey);
     localStorage.setItem('swingKey', swingKey);
     localStorage.setItem('throwTo1BKey', throwTo1BKey);
@@ -714,7 +669,6 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('Electron IPC not available for window mode control:', err);
     }
 
-    // dispatch an event so other modules can react to key changes if they listen
     try {
       const ev = new CustomEvent('controls-updated', {
         detail: {
@@ -739,10 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
     try { showHitZone = JSON.parse(savedHitZone); } catch (err) {}
   }
 
-  // ========= SWING ACTION =========
-  // Normalize incoming key events before comparing so 'Space' works reliably
   document.addEventListener('keydown', e => {
-    // If an input is focused, ignore (already guarded earlier when setting inputs)
     const active = document.activeElement;
     if (active === stopPitchKeyInput ||
         active === swingKeyInput ||
@@ -753,17 +704,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const keyName = normalizeKeyName(e.key);
 
-    // swing action
     if (keyName === swingKey && !pickoffInProgress && gameState === 'offense' && ball.active) {
       if (typeof triggerSwing === 'function') triggerSwing();
     }
 
-    // stop pitch action
     if (keyName === stopPitchKey) {
       if (typeof stopPitch === 'function') stopPitch();
     }
 
-    // throw to bases - allow arbitrary binds (not just digits)
     if (keyName === throwTo1BKey) {
       if (typeof throwToBase === 'function') throwToBase(1);
       if (typeof pickoffTo1B === 'function') pickoffTo1B();

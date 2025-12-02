@@ -67,7 +67,7 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/account.css?
             <div class="account-group">
                 <label class="account-label">Danger Zone</label>
                 <button class="account-btn delete-btn" id="openDeleteModal">Delete Account</button>
-        </div>
+            </div>
 
         </section>
 

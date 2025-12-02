@@ -36,7 +36,7 @@ function drawScoreboard(ctx) {
 
     const teamTextOffset = 3;
 
-    ctx.fillText('HOM', colCenters[0] - teamTextOffset, sbY + sbHeight / 4);
+    ctx.fillText('YOU', colCenters[0] - teamTextOffset, sbY + sbHeight / 4);
     ctx.fillText(`${teamBScore}`, colCenters[1], sbY + sbHeight / 4);
 
     const arrowX = colCenters[2];

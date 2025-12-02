@@ -15,6 +15,7 @@ const bezecImg = new Image();
 const ballImg = new Image();
 const batterDugoutImg = new Image();
 const benchPlayerImg = new Image();
+const benchPlayerBImg = new Image();
 const slideImg = new Image();
 const actionImg = new Image();
 const logoImg = new Image();
@@ -26,10 +27,11 @@ polarImg.src = 'images/polar.png';
 bezecImg.src = 'images/bezec.png';
 ballImg.src = 'images/baseball.png';
 benchPlayerImg.src = 'images/benchPlayer.png';
+benchPlayerBImg.src = 'images/benchPlayerB.png';
 slideImg.src = 'images/slide.png';
 actionImg.src = 'images/akce.png';
 logoImg.src = 'images/logo.png';
-batterDugoutImg.src = 'images/batterDugout2.png';
+batterDugoutImg.src = 'images/batterDugout.png';
 
 const throwSound = new Audio('audio/throw.mp3');
 const slideSound = new Audio('audio/slide.wav');
@@ -79,15 +81,15 @@ const allSounds = [
 if (typeof applyVolumeSettings === 'function') applyVolumeSettings();
 
 let battersQueue = [
-  { name: 'Palkar1', img: palkarImg },
-  { name: 'Palkar2', img: palkarImg },
-  { name: 'Palkar3', img: palkarImg },
-  { name: 'Palkar4', img: palkarImg },
-  { name: 'Palkar5', img: palkarImg },
-  { name: 'Palkar6', img: palkarImg },
-  { name: 'Palkar7', img: palkarImg },
-  { name: 'Palkar8', img: palkarImg },
-  { name: 'Palkar9', img: palkarImg }
+  { name: 'Turner', img: palkarImg },
+  { name: 'Betts', img: palkarImg },
+  { name: 'Ohtani', img: palkarImg },
+  { name: 'Guerrero Jr.', img: palkarImg },
+  { name: 'Trout', img: palkarImg },
+  { name: 'Judge', img: palkarImg },
+  { name: 'Rodriguez', img: palkarImg },
+  { name: 'Jeter', img: palkarImg },
+  { name: 'Acuña Jr.', img: palkarImg }
 ];
 
 let animationInProgress = false;
