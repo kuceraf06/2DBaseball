@@ -8,6 +8,7 @@ let hideOnDeckDuringAnimation = false;
 let currentOnDeckBatter = battersQueue[1];
 
 let teamBScore = 0;
+let teamAScore = 0;
 let runScoredText = '';
 let runScoredTimeout = null;
 let hideBatterDuringOnDeckAnimation = false;
@@ -54,6 +55,8 @@ let resultTextTimeout;
 
 let resultEvaluated = false;
 
+let gameOver = false;
+
 const stateIndicatorEl = document.getElementById('stateIndicator');
 const outsDisplayEl = document.getElementById('outsDisplay');
 const toggleStateBtn = document.getElementById('toggleStateBtn');
@@ -82,14 +85,21 @@ function showResultText(text, color = 'yellow', duration = 1500) {
 
 
 function addOut() {
+  if (gameOver) return;
+
   outs++;
 
   if (outs >= 3) {
     setTimeout(() => {
-      switchSides();
+      if (gameState === 'offense') {
+        showGameOver();
+      } else {
+        switchSides();
+      }
     }, 800);
   }
 }
+
 const _stateTransTimers = { hold: null, out: null, reset: null };
 
 function clearStateTransTimers() {
@@ -129,6 +139,67 @@ function showStateTransition(text, holdMs = 1200) {
   }, holdMs + 300);
 }
 
+function resetOverlay() {
+  const overlay = document.getElementById('stateTransitionOverlay');
+  const textEl = document.getElementById('stateTransitionText');
+  const promptEl = document.getElementById('gameOverPrompt');
+
+  if (!overlay || !textEl || !promptEl) return;
+
+  overlay.classList.remove('in', 'out');
+  overlay.style.opacity = '0';
+  overlay.style.transform = 'translate(120vw, 120vh)';
+  promptEl.style.display = 'none';
+  textEl.textContent = '';
+}
+
+function showGameOver() {
+  gameOver = true;
+
+  const overlay = document.getElementById('stateTransitionOverlay');
+  const textEl = document.getElementById('stateTransitionText');
+  const promptEl = document.getElementById('gameOverPrompt');
+
+  if (!overlay || !textEl || !promptEl) return;
+
+  clearStateTransTimers();
+  overlay.classList.remove('in', 'out');
+
+  void overlay.offsetWidth;
+
+  textEl.textContent = "GAME OVER";
+  overlay.style.opacity = "1";
+  overlay.style.transform = "translate(0,0)";
+  overlay.classList.add('in');
+
+  promptEl.style.display = "block";
+  let visible = true;
+  const blinkInterval = setInterval(() => {
+    if (!gameOver) { clearInterval(blinkInterval); return; }
+    visible = !visible;
+    promptEl.style.visibility = visible ? 'visible' : 'hidden';
+  }, 500);
+
+  function goToMenuListener(e) {
+    if (e.key === 'Enter') {
+      gameOver = false;
+      promptEl.style.display = "none";
+      overlay.classList.remove('in');
+
+      if (gameWrapper && startScreen) {
+        resetOverlay();
+        gameWrapper.style.display = 'none';
+        startScreen.style.display = 'flex';
+      }
+
+      window.removeEventListener('keydown', goToMenuListener);
+      clearInterval(blinkInterval);
+    }
+  }
+
+  window.addEventListener('keydown', goToMenuListener);
+}
+
 function switchSides() {
   const nextState = gameState === 'defense' ? 'offense' : 'defense';
 
@@ -154,5 +225,64 @@ if (toggleStateBtn) {
   toggleStateBtn.addEventListener('click', () => {
     switchSides();
   });
+}
+
+function resetGame() {
+  runnerOnFirstBase = null;
+  runnerOnSecondBase = null;
+  runnerOnThirdBase = null;
+  bases = [null, null, null];
+
+  dugoutRunners = [];
+  batterRunningToDugout = false;
+  batterRunObj = null;
+
+  ballCountInProgress = false;
+  strikeCount = 0;
+  ballCount = 0;
+  outs = 0;
+
+  gameState = 'defense';
+  aiBattingEnabled = true;
+  gameOver = false;
+  lastPlayType = null;
+
+  hitRegistered = false;
+  swingAllowed = false;
+  swingActive = false;
+  strikeoutInProgress = false;
+  atBatOver = false;
+  showHitZone = true;
+  hitZone = null;
+
+  teamBScore = 0;
+  teamAScore = 0;
+  runScoredText = '';
+  clearTimeout(runScoredTimeout);
+
+  selectedPitch = 'FB';
+  lastPitch = null;
+
+  resultText = '';
+  resultTextColor = 'black';
+  clearTimeout(resultTextTimeout);
+
+  resetOverlay();
+
+  battersQueue = [
+    { name: 'Turner', img: palkarImg },
+    { name: 'Betts', img: palkarImg },
+    { name: 'Ohtani', img: palkarImg },
+    { name: 'Guerrero Jr.', img: palkarImg },
+    { name: 'Trout', img: palkarImg },
+    { name: 'Judge', img: palkarImg },
+    { name: 'Rodriguez', img: palkarImg },
+    { name: 'Jeter', img: palkarImg },
+    { name: 'Acuña Jr.', img: palkarImg }
+  ];
+  currentOnDeckBatter = battersQueue[1];
+
+  draw();
+  resetCount();
 }
 

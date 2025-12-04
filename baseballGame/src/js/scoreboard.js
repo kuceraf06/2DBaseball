@@ -95,7 +95,7 @@ function drawScoreboard(ctx) {
     ctx.fillStyle = 'white';
     ctx.textAlign = 'center';
     ctx.fillText('BOT', colCenters[0] - teamTextOffset, sbY + 3 * sbHeight / 4);
-    ctx.fillText('0', colCenters[1], sbY + 3 * sbHeight / 4);
+    ctx.fillText(`${teamAScore}`, colCenters[1], sbY + 3 * sbHeight / 4);
 
     ctx.fillStyle = 'white';
     const arrowY2 = sbY + 3 * sbHeight / 4 + 2;

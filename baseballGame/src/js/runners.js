@@ -8,11 +8,18 @@ function drawRunScored() {
 }
 
 function incrementTeamBScore(scoringRunner) {
-  teamBScore++;
+  if (gameState === 'defense') {
+    teamAScore++;
+  } else {
+    teamBScore++;
+  }
+
   runScoredText = 'RUN SCORED!';
+  
   if (scoringRunner) {
     startBatterToDugout(scoringRunner, 'right');
   }
+
   clearTimeout(runScoredTimeout);
   runScoredTimeout = setTimeout(() => {
     runScoredText = '';

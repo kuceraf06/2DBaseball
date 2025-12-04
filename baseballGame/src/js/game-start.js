@@ -1,11 +1,13 @@
-window.api.getUsers().then(users => {
-  console.log("Users from DB:", users);
+if (window.api && typeof window.api.getUsers === "function") {
+    window.api.getUsers().then(users => {
+        console.log("Users from DB:", users);
 
-  if (users.length > 0) {
-    document.getElementById("userName").innerText = users[0].username;
-    document.getElementById("userID").innerText = users[0].id;
-  }
-});
+        if (users.length > 0) {
+            document.getElementById("userName").innerText = users[0].username;
+            document.getElementById("userID").innerText = users[0].id;
+        }
+    });
+}
 
 const startScreen = document.getElementById('startScreen');
 const gameWrapper = document.querySelector('.gameWrapper');
@@ -21,6 +23,8 @@ const exitBtn = startScreen.querySelectorAll('.startBtn')[3];
 playBtn.addEventListener('click', () => {
   startScreen.style.display = 'none';
   gameWrapper.style.display = 'block';
+
+  resetGame();
 });
 
 startLogoutBtn.addEventListener('click', () => {
