@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <meta name="robots" content="index, follow"/>
-  <meta name="author" content="Filip"/>
+  <meta name="author" content="Filip Kučera"/>
   <meta name="description" content="2D Baseball — baseball game developed in HTML5, CSS and JavaScript."/>
   <meta name="keywords" content="2D baseball, baseball game, sport game, pixel art, baseball simulator"/>
   <meta name="theme-color" content="#4caf50"/>
@@ -19,28 +19,42 @@
   <title>2D Baseball</title>
 </head>
 <script>
-async function checkLogin() {
-    try {
-        const res = await fetch("http://localhost/PHP/2Dbaseball/baseballWeb/api/me.php", {
-            credentials: "include"
-        });
+document.addEventListener("DOMContentLoaded", () => {
+  async function checkLogin() {
+      const token = localStorage.getItem("app_token");
 
-        if (!res.ok) {
-            location.href = "http://localhost/PHP/2Dbaseball/baseballWeb/login";
-            return;
-        }
+      if (!token) {
+          window.location.href = "login.html";
+          return;
+      }
 
-        const user = await res.json();
-        window.currentUser = user;
+      try {
+          const res = await fetch("http://localhost/PHP/2Dbaseball/baseballWeb/api/me.php", {
+              method: "GET",
+              headers: {
+                  "X-App-Token": token
+              }
+          });
 
-        document.getElementById("userName").textContent = user.username;
-        document.getElementById("userID").textContent = user.id;
-    } catch (e) {
-        location.href = "http://localhost/PHP/2Dbaseball/baseballWeb/login";
-    }
-}
+          if (!res.ok) {
+              localStorage.removeItem("app_token");
+              window.location.href = "login.html";
+              return;
+          }
 
-checkLogin();
+          const user = await res.json();
+          window.currentUser = user;
+
+          document.getElementById("userName").textContent = user.username;
+          document.getElementById("userID").textContent = user.id;
+
+      } catch (err) {
+          localStorage.removeItem("app_token");
+          window.location.href = "login.html";
+      }
+  }
+  checkLogin();
+});
 </script>
 
 <body>
@@ -59,7 +73,7 @@ checkLogin();
       <h2>Main Menu</h2>
       <button id="closeMenuBtn" class="menuBtn">Play <i class='bx bx-play-circle'></i></button>
       <button id="menuSettingsBtn" class="menuBtn">Settings <i class='bx bx-cog'></i></button>
-      <a href="../baseballWeb/about" target="_blank"><button id="menuSettingsBtn" class="menuBtn">About <i class='bx bx-right-top-arrow-circle arrow-up'></i></button></a>
+      <a href="https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/about" target="_blank"><button id="menuSettingsBtn" class="menuBtn">About <i class='bx bx-right-top-arrow-circle arrow-up'></i></button></a>
       <button id="exitAppBtn" class="menuBtn">Exit <i class='bx bx-log-out'></i></button>
       <p>Version: 1.0.0</p>
       <button class="closeModalBtn" id="closeMenuCross">&times;</button>
@@ -200,7 +214,7 @@ checkLogin();
 
   <div id="startScreen" class="startMenu">
     <button id="playBtn" class="startBtn">Play <i class='bx bx-play-circle'></i></button>
-    <a href="../baseballWeb/about" target="_blank"><button class="startBtn">About  <i class='bx bx-right-top-arrow-circle arrow-start'></i></button></a>
+    <a href="https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/about" target="_blank"><button class="startBtn">About  <i class='bx bx-right-top-arrow-circle arrow-start'></i></button></a>
     <button id="startLogoutBtn" class="startBtn">Logout <i class='bx bx-log-out'></i></button>
     <button class="startBtn">Exit <i class='bx bx-x cross'></i></button>
   </div>
@@ -245,6 +259,20 @@ checkLogin();
       Press Enter to return to the menu
     </div>
   </div>  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (window.api && window.api.openExternal) {
+                    window.api.openExternal(link.href);
+                } else {
+                    console.error("Electron API není dostupné!");
+                }
+            });
+        });
+    });
+  </script>
 
   <script src="js/game-start.js"></script>
   <script src="js/game-setup.js"></script>

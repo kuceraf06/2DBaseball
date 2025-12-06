@@ -9,5 +9,8 @@ contextBridge.exposeInMainWorld("api", {
     quitApp: () => ipcRenderer.send("app-quit"),
 
     setWindowMode: (mode) => ipcRenderer.send("set-window-mode", { mode }),
-    getWindowMode: () => ipcRenderer.invoke("get-window-mode")
+    getWindowMode: () => ipcRenderer.invoke("get-window-mode"),
+
+
+    openExternal: (url) => ipcRenderer.send("open-external", url)
 });

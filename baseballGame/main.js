@@ -1,9 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, shell } = require('electron');
 const path = require('path');
 
 const Database = require('better-sqlite3');
 
-// Cesta k databázi (správná!)
 const db = new Database(
   path.join(__dirname, '../baseballWeb/app/db/database.sqlite')
 );
@@ -136,6 +135,10 @@ ipcMain.on('set-window-mode', (event, { mode }) => {
   }
 
   isWindowFullscreen = isFull;
+});
+
+ipcMain.on('open-external', (event, url) => { 
+    shell.openExternal(url);
 });
 
 app.whenReady().then(createWindow);
