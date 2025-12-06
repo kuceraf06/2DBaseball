@@ -3,6 +3,8 @@ $pageTitle = "2D Baseball | Leaderboard";
 $pageDescription = "Top players ranked by total games played.";
 
 $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/leaderboard.css?v=' . time() . '">';
+
+require_once __DIR__ . '/../db/connect.php';
 ?>
 
 <main class="main-content leaderboard-page">
@@ -15,7 +17,13 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/leaderboard.
     <section class="leaderboard-summary">
         <div class="summary-card">
             <h3>Total Players</h3>
-            <p class="summary-number">124</p>
+            <p class="summary-number">
+                <?php
+                $stmt = $db->query("SELECT COUNT(*) as total FROM users"); // tabulka s hráči
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                echo $row['total'];
+                ?>
+            </p>
         </div>
     </section>
 

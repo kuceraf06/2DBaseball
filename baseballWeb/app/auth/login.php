@@ -9,6 +9,8 @@ $loginId = trim($data['loginId'] ?? '');
 $password = $data['password'] ?? '';
 $remember = $data['remember'] ?? false;
 
+$isElectron = $data['isElectron'] ?? false; 
+
 if (!$loginId || !$password) {
     echo json_encode(["success" => false, "message" => "Missing credentials"]);
     exit;
@@ -31,6 +33,18 @@ if (!$user) {
 
 if (!password_verify($password, $user["password_hash"])) {
     echo json_encode(["success" => false, "message" => "Incorrect password"]);
+    exit;
+}
+
+if ($isElectron === true) {
+    echo json_encode([
+        "success" => true,
+        "user" => [
+            "id"       => $user["id"],
+            "username" => $user["username"]
+        ],
+        "token" => bin2hex(random_bytes(32)) // client-side token (lokální)
+    ]);
     exit;
 }
 

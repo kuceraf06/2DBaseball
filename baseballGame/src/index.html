@@ -18,6 +18,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <title>2D Baseball</title>
 </head>
+<script>
+async function checkLogin() {
+    try {
+        const res = await fetch("http://localhost/PHP/2Dbaseball/baseballWeb/api/me.php", {
+            credentials: "include"
+        });
+
+        if (!res.ok) {
+            location.href = "http://localhost/PHP/2Dbaseball/baseballWeb/login";
+            return;
+        }
+
+        const user = await res.json();
+        window.currentUser = user;
+
+        document.getElementById("userName").textContent = user.username;
+        document.getElementById("userID").textContent = user.id;
+    } catch (e) {
+        location.href = "http://localhost/PHP/2Dbaseball/baseballWeb/login";
+    }
+}
+
+checkLogin();
+</script>
+
 <body>
   <div id="windowControls" class="windowControls">
     <button id="minimizeBtn" class="winBtn"><i class='bx  bx-minus'></i> </button>
