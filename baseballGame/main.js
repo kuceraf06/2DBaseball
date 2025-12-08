@@ -14,7 +14,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 900,
-    fullscreen: true, // plná obrazovka při startu
+    fullscreen: true,
     resizable: true,
     icon: path.join(__dirname, 'src', 'images', 'favicon.ico'),
     webPreferences: {
@@ -139,6 +139,22 @@ ipcMain.on('set-window-mode', (event, { mode }) => {
 
 ipcMain.on('open-external', (event, url) => { 
     shell.openExternal(url);
+});
+
+function loadLogin() {
+  if (!mainWindow) return;
+  mainWindow.loadFile(path.join(__dirname, 'src', 'login.html'))
+    .catch(err => console.error('Nelze načíst login.html:', err));
+}
+
+ipcMain.on('load-login', () => {
+  loadLogin();
+});
+
+ipcMain.on('load-index', () => {
+  if (!mainWindow) return;
+  mainWindow.loadFile(path.join(__dirname, 'src', 'index.html'))
+    .catch(err => console.error('Nelze načíst index.html:', err));
 });
 
 app.whenReady().then(createWindow);

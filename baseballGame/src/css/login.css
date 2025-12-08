@@ -51,6 +51,12 @@ body {
   transition: opacity 0.2s, background 0.2s, transform 0.15s;
 }
 
+.winBtn:hover {
+  opacity: 1;
+  color: white;
+  background: rgba(0, 82, 153, .8);
+}
+
 @media (max-width: 900px) {
   .winBtn {
     font-size: clamp(10px, calc((12 / var(--design-w)) * 100vw), 14px);
@@ -131,6 +137,12 @@ body {
 
 .auth-btn:hover {
     background: #1d4b89;
+}
+
+.auth-btn:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.6;
 }
 
 .register-link {

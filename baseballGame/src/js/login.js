@@ -3,14 +3,10 @@ document.getElementById("loginBtn").addEventListener("click", login);
 async function login() {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
-    const errorBox = document.getElementById("error");
 
     if (!username || !password) {
-        errorBox.textContent = "Vyplň všechna pole.";
         return;
     }
-
-    errorBox.textContent = "";
 
     try {
         const res = await fetch("http://localhost/PHP/2Dbaseball/baseballWeb/api/app_login.php", {
@@ -25,23 +21,35 @@ async function login() {
         });
 
         if (!res.ok) {
-            errorBox.textContent = "Špatné přihlášení.";
             return;
         }
 
         const data = await res.json();
+        
+        console.log("Sending token:", data.token);
 
         localStorage.setItem("app_token", data.token);
 
-        window.location.href = "index.html";
+        window.api.loadIndex?.();
 
     } catch (e) {
         console.error(e);
-        errorBox.textContent = "Chyba serveru.";
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("minimizeBtn").addEventListener("click", () => {
+        window.api.minimize();
+    });
+
+    document.getElementById("desktopBtn").addEventListener("click", () => {
+        window.api.toggleFullscreen();
+    });
+
+    document.getElementById("closeBtn").addEventListener("click", () => {
+        window.api.close();
+    });
+
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();

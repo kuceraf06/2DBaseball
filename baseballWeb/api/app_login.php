@@ -1,6 +1,16 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit;
+}
+
 header("Content-Type: application/json");
 require __DIR__ . '/../app/db/connect.php';
+
+dlog("Login attempt: login=" . ($data['login'] ?? 'NULL'));
 
 $data = json_decode(file_get_contents("php://input"), true);
 
@@ -18,11 +28,21 @@ $stmt->execute([":login" => $login]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$user || !password_verify($password, $user["password_hash"])) {
-    echo json_encode(["success" => false, "message" => "Invalid credentials"]);
+    echo json_encode(["success" => false, "message" => "User not found"]);
     exit;
 }
 
 $token = bin2hex(random_bytes(32));
+
+if (!$user) {
+    dlog("User not found.");
+} else {
+    dlog("User found: ID " . $user['id']);
+}
+
+if (!password_verify($password, $user["password_hash"])) {
+    dlog("Password mismatch.");
+}
 
 $stmt = $db->prepare("UPDATE users SET api_token = :t WHERE id = :id");
 $stmt->execute([":t" => $token, ":id" => $user["id"]]);
@@ -35,3 +55,5 @@ echo json_encode([
         "username" => $user["username"]
     ]
 ]);
+
+dlog("Token generated and saved for user ID " . $user["id"]);

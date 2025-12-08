@@ -12,5 +12,8 @@ contextBridge.exposeInMainWorld("api", {
     getWindowMode: () => ipcRenderer.invoke("get-window-mode"),
 
 
-    openExternal: (url) => ipcRenderer.send("open-external", url)
+    openExternal: (url) => ipcRenderer.send("open-external", url),
+
+    loadIndex: () => ipcRenderer.send("load-index"),
+    loadLogin: () => ipcRenderer.send("load-login")
 });
