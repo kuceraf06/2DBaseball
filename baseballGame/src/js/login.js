@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function validateField(input) {
         clearFieldError(input);
-        if (!input.value.trim()) showError(input, "Toto pole je povinné");
+        if (!input.value.trim()) showError(input, "This field is required");
     }
 
     function checkFormValidity() {
