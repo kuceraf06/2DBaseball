@@ -71,7 +71,7 @@
                     </label>
                 </div>
 
-                <button type="submit" class="auth-btn" disabled  id="loginBtn" tabindex="5">Sign In</button>
+                <button type="submit" class="auth-btn"  id="loginBtn" tabindex="5">Sign In</button>
 
                 <p class="register-link">
                     New here? <a href="https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/register">Register here</a>
@@ -82,109 +82,6 @@
 
     </main>
     <script src="js/login.js"></script>
-    <script>
-document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.getElementById("loginForm");
-    const username = document.getElementById("username");
-    const password = document.getElementById("password");
-    const submitBtn = document.getElementById("loginBtn");
-    const resultBox = document.getElementById("login-result");
-    const resultIcon = resultBox.querySelector(".result-icon");
-    const resultMsg  = resultBox.querySelector(".result-message");
-
-    document.querySelectorAll(".toggle-pass").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const input = btn.parentElement.querySelector("input");
-            input.type = btn.dataset.state === "closed" ? "text" : "password";
-            btn.dataset.state = btn.dataset.state === "closed" ? "open" : "closed";
-        });
-    });
-
-    [username, password].forEach(input => {
-        input.addEventListener("input", () => {
-            validateField(input);
-            checkFormValidity();
-        });
-        input.addEventListener("blur", () => validateField(input));
-    });
-
-    function validateField(input) {
-        clearFieldError(input);
-        if (!input.value.trim()) showError(input, "This field is required");
-    }
-
-    function checkFormValidity() {
-        submitBtn.disabled = !username.value.trim() || !password.value.trim();
-    }
-
-    function showError(input, msg) {
-        const group = input.closest(".form-group");
-        const errorMsg = group.querySelector(".error-msg");
-        input.classList.add("error");
-        errorMsg.textContent = msg;
-        errorMsg.style.opacity = 1;
-    }
-
-    function clearFieldError(input) {
-        const group = input.closest(".form-group");
-        const errorMsg = group.querySelector(".error-msg");
-        input.classList.remove("error");
-        errorMsg.textContent = "";
-        errorMsg.style.opacity = 0;
-    }
-
-    function clearResultBox() {
-        resultBox.style.display = "none";
-        resultBox.classList.remove("error", "success");
-        resultIcon.textContent = "";
-        resultMsg.textContent = "";
-    }
-
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        clearFieldError(username);
-        clearFieldError(password);
-        clearResultBox();
-
-        validateField(username);
-        validateField(password);
-
-        if (submitBtn.disabled) return;
-
-        try {
-            const res = await fetch("http://localhost/PHP/2Dbaseball/baseballWeb/api/app_login.php", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ login: username.value.trim(), password: password.value })
-            });
-
-            const data = await res.json();
-
-            if (!res.ok || !data.token) {
-                resultBox.style.display = "block";
-                resultBox.classList.add("error");
-                resultIcon.textContent = "❌";
-                resultMsg.textContent = data.message || "Login failed.";
-                return;
-            }
-
-        } catch (err) {
-            console.error(err);
-            resultBox.style.display = "block";
-            resultBox.classList.add("error");
-            resultIcon.textContent = "❌";
-            resultMsg.textContent = "Server error.";
-        }
-    });
-
-    loginForm.addEventListener("keydown", e => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            if (!submitBtn.disabled) loginForm.dispatchEvent(new Event("submit"));
-        }
-    });
-});
-</script>
 
 </body>
 </html>

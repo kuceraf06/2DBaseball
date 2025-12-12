@@ -1,10 +1,10 @@
 <?php
 require_once __DIR__ . '/../app/db/connect.php';
 
-dlog("me.php called with token: " . $token);
-
 $headers = getallheaders();
 $token = $headers['X-App-Token'] ?? null;
+
+dlog("me.php called with token: " . $token);
 
 if (!$token) {
     http_response_code(401);
