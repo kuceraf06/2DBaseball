@@ -259,11 +259,25 @@ document.addEventListener('DOMContentLoaded', () => {
         () => {
           logoutUser();
 
-          try {
-            const { ipcRenderer } = require('electron');
-            ipcRenderer.send('app-quit');
-          } catch (err) {
-            console.warn('Electron IPC not available, fallback for browser mode');
+          if (window.api?.quitApp) {
+            window.api.quitApp();
+          } else {
+            window.location.reload();
+          }
+
+        }
+      );
+    });
+  }
+
+  if (exitAppBtn) {
+    exitAppBtn.addEventListener('click', () => {
+      showConfirmExitModal(
+        'The game is in progress. Exit now? <br>Game progress will be lost.',
+        () => {
+          if (window.api?.quitApp) {
+            window.api.quitApp();
+          } else {
             window.location.reload();
           }
         }
@@ -271,85 +285,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  try {
-    const { ipcRenderer } = require('electron');
-
-    if (exitAppBtn) {
-      exitAppBtn.addEventListener('click', () => {
-        showConfirmExitModal(
-          'The game is in progress. Exit now? <br>Game progress will be lost.',
-          () => {
-            try {
-              const { ipcRenderer } = require('electron');
-              ipcRenderer.send('app-quit');
-            } catch (err) {
-              console.warn('Electron IPC not available, fallback for browser mode');
-              window.location.reload();
-            }
-          }
-        );
-      });
-    }
-
-    if (cancelExitBtn) {
-      cancelExitBtn.addEventListener('click', () => {
-        confirmExitModal.style.display = 'none';
-      });
-    }
-
-    if (confirmExitBtn) {
-      confirmExitBtn.addEventListener('click', () => {
-        confirmExitModal.style.display = 'none';
-        ipcRenderer.send('app-quit');
-      });
-    }
-  } catch (err) {
-    console.warn('Electron IPC not available (likely running in browser). Exit button disabled.');
+  if (cancelExitBtn) {
+    cancelExitBtn.addEventListener('click', () => {
+      confirmExitModal.style.display = 'none';
+    });
   }
 
-  try {
-  const { ipcRenderer } = require('electron');
+  if (confirmExitBtn) {
+    confirmExitBtn.addEventListener('click', () => {
+      confirmExitModal.style.display = 'none';
+      if (window.api?.quitApp) {
+        window.api.quitApp();
+      }
+    });
+  }
 
   const minimizeBtn = document.getElementById('minimizeBtn');
   const desktopBtn = document.getElementById('desktopBtn');
   const closeBtn = document.getElementById('closeBtn');
 
-  if (minimizeBtn) {
-    minimizeBtn.addEventListener('click', () => {
-      ipcRenderer.send('window-minimize');
-    });
-  }
+  if (window.api) {
 
-  if (desktopBtn) {
-    const desktopIcon = desktopBtn.querySelector('i');
-    let isFullscreen = true;
-
-    function updateFullscreenIcon() {
-      if (isFullscreen) {
-        desktopIcon.className = 'bx bx-exit-fullscreen';
-      } else {
-        desktopIcon.className = 'bx bx-fullscreen';
-      }
+    if (minimizeBtn) {
+      minimizeBtn.addEventListener('click', () => {
+        window.api.minimize();
+      });
     }
 
-    desktopBtn.addEventListener('click', () => {
-      ipcRenderer.send('window-hide');
+    if (desktopBtn) {
+      const desktopIcon = desktopBtn.querySelector('i');
+      let isFullscreen = true;
 
-      isFullscreen = !isFullscreen;
+      function updateFullscreenIcon() {
+        desktopIcon.className = isFullscreen
+          ? 'bx bx-exit-fullscreen'
+          : 'bx bx-fullscreen';
+      }
+
+      desktopBtn.addEventListener('click', () => {
+        window.api.toggleFullscreen();
+        isFullscreen = !isFullscreen;
+        updateFullscreenIcon();
+      });
+
       updateFullscreenIcon();
-    });
+    }
 
-    updateFullscreenIcon();
-  }
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        window.api.close();
+      });
+    }
 
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      ipcRenderer.send('window-close');
-    });
-  }
-
-  } catch (err) {
-    console.warn('Electron IPC not available. Window controls disabled.');
+  } else {
+    console.warn('Window controls disabled – not running in Electron');
   }
 
   document.addEventListener('keydown', e => {
@@ -551,24 +540,24 @@ document.addEventListener('DOMContentLoaded', () => {
     savedVolumeBeforeModal = globalVolume;
     savedMutedBeforeModal = isMuted;
 
-    try {
-        const { ipcRenderer } = require('electron');
-        savedWindowModeBeforeModal = await ipcRenderer.invoke('get-window-mode');
+    if (window.api?.getWindowMode) {
+      savedWindowModeBeforeModal = await window.api.getWindowMode();
 
-        const windowModeSelect = document.getElementById('windowModeSelect');
-        if (windowModeSelect && savedWindowModeBeforeModal) {
-            windowModeSelect.value = savedWindowModeBeforeModal;
-
-            windowModeSelect.addEventListener('change', () => {
-              unsavedChanges = true;
-            });
-        }
-    } catch (err) {
-        console.warn('Electron IPC not available for window mode save:', err);
-        savedWindowModeBeforeModal = null;
+      const windowModeSelect = document.getElementById('windowModeSelect');
+      if (windowModeSelect && savedWindowModeBeforeModal) {
+        windowModeSelect.value = savedWindowModeBeforeModal;
+        windowModeSelect.addEventListener('change', () => {
+          unsavedChanges = true;
+        });
+      }
+    } else {
+      savedWindowModeBeforeModal = null;
     }
 
-    if (typeof showHitZone !== 'undefined' && strikeZoneSwitch) strikeZoneSwitch.checked = !!showHitZone;
+    if (typeof showHitZone !== 'undefined' && strikeZoneSwitch) {
+      strikeZoneSwitch.checked = !!showHitZone;
+    }
+
     unsavedChanges = false;
   }
 
@@ -608,13 +597,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (throwTo3BKeyInput) throwTo3BKeyInput.value = throwTo3BKey;
     if (settingsToggleKeyInput) settingsToggleKeyInput.value = settingsToggleKey;
 
-    try {
-      const { ipcRenderer } = require('electron');
-      if (savedWindowModeBeforeModal) {
-        ipcRenderer.send('set-window-mode', { mode: savedWindowModeBeforeModal });
-      }
-    } catch (err) {
-      console.warn('Electron IPC not available for restoring window mode:', err);
+    if (savedWindowModeBeforeModal && window.api?.setWindowMode) {
+      window.api.setWindowMode(savedWindowModeBeforeModal);
     }
 
     newStopPitchKey = null;
@@ -658,15 +642,9 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('isMuted', JSON.stringify(isMuted));
     applyVolumeSettings();
 
-     try {
-      const { ipcRenderer } = require('electron');
-      const windowModeSelect = document.getElementById('windowModeSelect');
-      if (windowModeSelect) {
-        const selectedMode = windowModeSelect.value;
-        ipcRenderer.send('set-window-mode', { mode: selectedMode });
-      }
-    } catch (err) {
-      console.warn('Electron IPC not available for window mode control:', err);
+    const windowModeSelect = document.getElementById('windowModeSelect');
+    if (windowModeSelect && window.api?.setWindowMode) {
+      window.api.setWindowMode(windowModeSelect.value);
     }
 
     try {
