@@ -260,7 +260,7 @@
       }
 
       try {
-          const res = await fetch("http://localhost/PHP/2Dbaseball/baseballWeb/api/me.php", {
+          const res = await fetch("https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/api/me.php", {
               method: "GET",
               headers: { "X-App-Token": token }
           });
@@ -282,10 +282,10 @@
   }
   </script>
 
-  <script src="js/logout.js"></script>
   <script src="js/game-start.js"></script>
   <script src="js/game-setup.js"></script>
   <script src="js/game-state.js"></script>
+  <script src="js/logout.js"></script>
   <script src="js/scoreboard.js"></script>
   <script src="js/user-settings.js"></script>
   <script src="js/field.js"></script>

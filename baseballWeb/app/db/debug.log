@@ -5,3 +5,16 @@
 [20:27:58] User found: ID 41
 [20:27:59] Token generated and saved for user ID 41
 [20:31:03] Login attempt: login=NULL
+[11:40:41] me.php called with token: 
+[11:40:47] Login attempt: login=NULL
+[11:40:56] Login attempt: login=NULL
+[11:40:57] User found: ID 41
+[11:40:57] Token generated and saved for user ID 41
+[11:41:08] me.php called with token: 
+[11:41:21] Login attempt: login=NULL
+[11:41:29] Login attempt: login=NULL
+[11:41:29] User found: ID 41
+[11:41:29] Token generated and saved for user ID 41
+[11:43:34] Login attempt: login=NULL
+[11:43:34] User found: ID 41
+[11:43:34] Token generated and saved for user ID 41

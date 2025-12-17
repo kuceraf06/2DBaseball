@@ -275,6 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
       showConfirmExitModal(
         'The game is in progress. Exit now? <br>Game progress will be lost.',
         () => {
+
           if (window.api?.quitApp) {
             window.api.quitApp();
           } else {

@@ -159,8 +159,12 @@ function runAnimations(animations, onComplete) {
     let allDone = true;
 
     runners.forEach(runner => {
+      if (!runner || !runner.player) return; 
+
       if (runner.currentStep < runner.steps.length) {
         const step = runner.steps[runner.currentStep];
+        if (!step) return; 
+
         let fromPos;
         if (runner.currentStep === 0) {
           if (runner.player.x !== undefined && runner.player.y !== undefined) {
@@ -358,6 +362,8 @@ function advanceRunnersForBallFour(newRunner) {
 }
 
 function drawRun(runner, pos) {
+  if (!runner || !pos) return;
+  
   const LEAD_OFFSET = 30;
 
   let centerX = (runner.x !== undefined) ? runner.x : pos.x + playerSize / 2;

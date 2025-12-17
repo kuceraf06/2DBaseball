@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!username || !password) return;
 
         try {
-            const res = await fetch("http://localhost/PHP/2Dbaseball/baseballWeb/api/app_login.php", {
+            const res = await fetch("https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/api/app_login.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ login: username, password: password })
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const sessionToken = sessionStorage.getItem("app_token");
         if (sessionToken) {
             try {
-                const res = await fetch("http://localhost/PHP/2Dbaseball/baseballWeb/api/me.php", {
+                const res = await fetch("https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/api/me.php", {
                     method: "GET",
                     headers: { "X-App-Token": sessionToken }
                 });
@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         try {
-            const res = await fetch("http://localhost/PHP/2Dbaseball/baseballWeb/api/me.php", {
+            const res = await fetch("https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/api/me.php", {
                 method: "GET",
                 headers: { "X-App-Token": token }
             });

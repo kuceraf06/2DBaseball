@@ -25,6 +25,11 @@ playBtn.addEventListener('click', () => {
   gameWrapper.style.display = 'block';
 
   resetGame();
+
+  matchInProgress = true;
+  matchFinished = false;
+
+  console.log("MATCH STARTED");
 });
 
 startLogoutBtn.addEventListener('click', () => {

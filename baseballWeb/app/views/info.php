@@ -15,6 +15,14 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/info.css?v='
     <section class="updates-section">
         <div class="updates-grid" id="updatesGrid">
             <div class="update-card">
+                <h3>[Update 17.12.2025]</h3>
+                <p>Fixing the disappearance of runners who steal second base on a pitch.</p>
+            </div>
+            <div class="update-card">
+                <h3>[Bug]</h3>
+                <p>When the AI bot hits a single and then steals second base, it teleports to second base and immediately steals third base.</p>
+            </div>
+            <div class="update-card">
                 <h3>[Update 20.11.2025]</h3>
                 <p>New graphics when switching between defense and offense.</p>
             </div>

@@ -55,6 +55,9 @@ let resultTextTimeout;
 
 let resultEvaluated = false;
 
+let matchInProgress = false;
+let matchFinished = false;
+
 let gameOver = false;
 
 const stateIndicatorEl = document.getElementById('stateIndicator');
@@ -154,7 +157,15 @@ function resetOverlay() {
 }
 
 function showGameOver() {
-  gameOver = true;
+  if (gameOver) return;
+  gameOver = true; 
+
+  if (!matchInProgress || matchFinished) return;
+
+  matchFinished = true;
+  matchInProgress = false;
+
+  console.log("MATCH FINISHED – VALID");
 
   const overlay = document.getElementById('stateTransitionOverlay');
   const textEl = document.getElementById('stateTransitionText');
