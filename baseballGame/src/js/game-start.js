@@ -1,7 +1,5 @@
 if (window.api && typeof window.api.getUsers === "function") {
     window.api.getUsers().then(users => {
-        console.log("Users from DB:", users);
-
         if (users.length > 0) {
             document.getElementById("userName").innerText = users[0].username;
             document.getElementById("userID").innerText = users[0].id;

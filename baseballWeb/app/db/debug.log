@@ -18,3 +18,12 @@
 [11:43:34] Login attempt: login=NULL
 [11:43:34] User found: ID 41
 [11:43:34] Token generated and saved for user ID 41
+[02:01:31] Login attempt: login=Fidzip
+[02:01:32] Token generated and saved for user ID 41
+[02:18:17] Login attempt: login=NULL
+[02:18:22] Login attempt: login=NULL
+[02:18:22] User found: ID 41
+[02:18:22] User found: ID 41
+[02:18:23] Token generated and saved for user ID 41
+[02:18:23] Token generated and saved for user ID 41
+[02:18:23] me.php called with token: 057d2b47ab80498b0ac184fb089e5594789bc8eb62edc8b2a2e1a0c742c28642

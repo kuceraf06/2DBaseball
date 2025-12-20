@@ -167,6 +167,24 @@ function showGameOver() {
 
   console.log("MATCH FINISHED – VALID");
 
+  if (window.api && typeof window.api.getUsers === "function") {
+
+      window.api.getUsers().then(users => {
+          if (users.length === 0) return;
+
+          const token = localStorage.getItem("app_token");
+          if (!token) return;
+
+          fetch("https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/api/app_add_match.php", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+                  "X-App-Token": token
+              }
+          });
+      });
+  }
+
   const overlay = document.getElementById('stateTransitionOverlay');
   const textEl = document.getElementById('stateTransitionText');
   const promptEl = document.getElementById('gameOverPrompt');
