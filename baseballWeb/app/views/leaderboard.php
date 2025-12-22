@@ -42,17 +42,30 @@ require_once __DIR__ . '/../db/connect.php';
                 </div>
             </div>
 
-            <div class="table-row"><div class="col rank">1</div><div class="col username">Filip</div><div class="col games">57</div></div>
-            <div class="table-row"><div class="col rank">2</div><div class="col username">Martin</div><div class="col games">49</div></div>
-            <div class="table-row"><div class="col rank">3</div><div class="col username">Sarah</div><div class="col games">40</div></div>
-            <div class="table-row"><div class="col rank">4</div><div class="col username">Player123</div><div class="col games">37</div></div>
-            <div class="table-row"><div class="col rank">5</div><div class="col username">John</div><div class="col games">35</div></div>
-            <div class="table-row"><div class="col rank">6</div><div class="col username">Mike</div><div class="col games">30</div></div>
-            <div class="table-row"><div class="col rank">7</div><div class="col username">Lucas</div><div class="col games">28</div></div>
-            <div class="table-row"><div class="col rank">8</div><div class="col username">Anna</div><div class="col games">20</div></div>
-            <div class="table-row"><div class="col rank">9</div><div class="col username">David</div><div class="col games">14</div></div>
-            <div class="table-row"><div class="col rank">10</div><div class="col username">Tom</div><div class="col games">9</div></div>
-            <div class="table-row"><div class="col rank">11</div><div class="col username">Emily</div><div class="col games">4</div></div>
+            <?php
+            $stmt = $db->prepare("
+                SELECT 
+                    users.username,
+                    user_stats.matches_played
+                FROM user_stats
+                JOIN users ON users.id = user_stats.user_id
+                ORDER BY user_stats.matches_played DESC
+            ");
+            $stmt->execute();
+
+            $rank = 1;
+
+            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                echo '
+                    <div class="table-row">
+                        <div class="col rank">' . $rank . '</div>
+                        <div class="col username">' . htmlspecialchars($row['username']) . '</div>
+                        <div class="col games">' . (int)$row['matches_played'] . '</div>
+                    </div>
+                ';
+                $rank++;
+            }
+            ?>
 
         </div>
 
