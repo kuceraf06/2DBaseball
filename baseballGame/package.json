@@ -24,21 +24,25 @@
   "build": {
     "appId": "com.filip.2dbaseball",
     "productName": "2D Baseball",
+    "asar": true,
     "directories": {
       "output": "dist"
     },
     "files": [
       "main.js",
+      "preload.js",
       "src/**/*",
-      "package.json"
+      "baseballWeb/**/*",
+      "package.json",
+      "node_modules/**",
+      "build/favicon.ico"
     ],
     "win": {
       "target": "nsis",
-      "icon": "src/images/favicon.ico",
+      "icon": "build/favicon.ico",
       "signAndEditExecutable": false
     }
   },
   "dependencies": {
-    "better-sqlite3": "^12.5.0"
   }
 }

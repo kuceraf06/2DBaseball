@@ -45,6 +45,7 @@ require_once __DIR__ . '/../db/connect.php';
             <?php
             $stmt = $db->prepare("
                 SELECT 
+                    users.id as user_id,
                     users.username,
                     user_stats.matches_played
                 FROM user_stats
@@ -57,7 +58,7 @@ require_once __DIR__ . '/../db/connect.php';
 
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 echo '
-                    <div class="table-row">
+                    <div class="table-row" data-player-id="' . (int)$row['user_id'] . '" data-player-name="' . htmlspecialchars($row['username']) . '">
                         <div class="col rank">' . $rank . '</div>
                         <div class="col username">' . htmlspecialchars($row['username']) . '</div>
                         <div class="col games">' . (int)$row['matches_played'] . '</div>
@@ -145,37 +146,36 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalName = document.getElementById("modalPlayerName");
     const modalList = document.getElementById("modalHistoryList");
 
-    const fakeHistory = {
-        "Filip": ["Win 5-2", "Loss 1-3", "Win 7-6", "Win 5-2", "Loss 1-3", "Win 7-6", "Win 5-2", "Loss 1-3", "Win 7-6"],
-        "Martin": ["Loss 0-9", "Win 3-1"],
-        "Sarah": ["Win 4-0", "Win 6-2", "Loss 2-5"],
-        "Player123": ["Win 1-0"],
-        "John": ["Loss 0-3"],
-        "Mike": ["Win 8-4"],
-        "Lucas": ["Loss 2-7"],
-        "Anna": ["Win 3-2"],
-        "David": ["Loss 1-8"],
-        "Tom": ["Win 2-1"]
-    };
-
-    document.querySelectorAll(".table-row .username").forEach(cell => {
-        cell.style.cursor = "pointer";
-        cell.addEventListener("click", () => {
-
-            const playerName = cell.textContent.trim();
+    allRows.forEach(row => {
+        const usernameCell = row.querySelector(".username");
+        usernameCell.style.cursor = "pointer";
+        usernameCell.addEventListener("click", async () => {
+            const playerId = row.getAttribute("data-player-id");
+            const playerName = row.getAttribute("data-player-name");
             modalName.textContent = playerName;
-
             modalList.innerHTML = "";
 
-            const games = fakeHistory[playerName] || ["No match history"];
+            try {
+                const response = await fetch('https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/api/fetch_player_matches.php?user_id=' + playerId);
+                const data = await response.json();
 
-            games.forEach(entry => {
-                const div = document.createElement("div");
-                div.textContent = entry;
-                modalList.appendChild(div);
-            });
+                if (data.length === 0) {
+                    modalList.innerHTML = "<div>No match history</div>";
+                } else {
+                    data.forEach(match => {
+                        const div = document.createElement("div");
+                        div.textContent = match.result + " " + match.team_a_score + "-" + match.team_b_score;
+                        modalList.appendChild(div);
+                    });
+                }
 
-            modal.style.display = "flex";
+                modal.style.display = "flex";
+
+            } catch (err) {
+                console.error(err);
+                modalList.innerHTML = "<div>Error loading match history</div>";
+                modal.style.display = "flex";
+            }
         });
     });
 

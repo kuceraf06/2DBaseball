@@ -1,8 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld("api", {
-    getUsers: () => ipcRenderer.invoke("get-users"),
-
     minimize: () => ipcRenderer.send("window-minimize"),
     toggleFullscreen: () => ipcRenderer.send("window-hide"),
     close: () => ipcRenderer.send("window-close"),

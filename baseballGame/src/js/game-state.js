@@ -165,25 +165,38 @@ function showGameOver() {
   matchFinished = true;
   matchInProgress = false;
 
+  function getMatchResult() {
+    if (teamBScore > teamAScore) return "WIN";
+    if (teamBScore < teamAScore) return "LOSE";
+    return "TIED";
+  }
+
   console.log("MATCH FINISHED – VALID");
 
-  if (window.api && typeof window.api.getUsers === "function") {
+  const result = getMatchResult();
+  const token = localStorage.getItem("app_token");
+  if (!token) return;
 
-      window.api.getUsers().then(users => {
-          if (users.length === 0) return;
+  fetch("https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/api/app_add_match.php", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "X-App-Token": token
+      }
+  });
 
-          const token = localStorage.getItem("app_token");
-          if (!token) return;
-
-          fetch("https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/api/app_add_match.php", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                  "X-App-Token": token
-              }
-          });
-      });
-  }
+  fetch("https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/api/app_add_match_result.php", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-App-Token": token
+    },
+      body: JSON.stringify({
+        result: result,
+        team_a_score: teamAScore,
+        team_b_score: teamBScore
+      })
+  });
 
   const overlay = document.getElementById('stateTransitionOverlay');
   const textEl = document.getElementById('stateTransitionText');
@@ -239,6 +252,10 @@ function switchSides() {
   }
 
   outs = 0;
+  runnerOnFirstBase = null;
+  runnerOnSecondBase = null;
+  runnerOnThirdBase = null;
+  bases = [null, null, null];
   gameState = nextState;
   aiBattingEnabled = gameState === 'defense';
 

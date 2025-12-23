@@ -1,22 +1,35 @@
 <?php
-require 'connect.php';
 
-$userIds = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,49,51,52];
+require_once 'connect.php';
 
 try {
-    $stmt = $db->prepare("
-        INSERT INTO user_stats (user_id, matches_played)
-        VALUES (:user_id, :matches_played)
+    $db->exec("
+        ALTER TABLE match_results
+        ADD COLUMN team_a_score INT NOT NULL DEFAULT 0
     ");
 
-    foreach ($userIds as $id) {
-        $stmt->execute([
-            ':user_id' => $id,
-            ':matches_played' => 0
-        ]);
-    }
-
-    echo "Záznamy byly úspěšně vloženy do user_stats.";
+    echo "team_a_score added\n";
 } catch (PDOException $e) {
-    echo "Chyba: " . $e->getMessage();
+    if (str_contains($e->getMessage(), 'Duplicate column')) {
+        echo "team_a_score already exists\n";
+    } else {
+        throw $e;
+    }
 }
+
+try {
+    $db->exec("
+        ALTER TABLE match_results
+        ADD COLUMN team_b_score INT NOT NULL DEFAULT 0
+    ");
+
+    echo "team_b_score added\n";
+} catch (PDOException $e) {
+    if (str_contains($e->getMessage(), 'Duplicate column')) {
+        echo "team_b_score already exists\n";
+    } else {
+        throw $e;
+    }
+}
+
+echo "Migration finished\n";

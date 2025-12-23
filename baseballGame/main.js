@@ -1,24 +1,47 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, screen } = require('electron');
 const path = require('path');
-
-const Database = require('better-sqlite3');
-
-const db = new Database(
-  path.join(__dirname, '../baseballWeb/app/db/database.sqlite')
-);
+const fs = require('fs');
 
 let mainWindow;
 let isWindowFullscreen = true;
 
+// resolve preload - hledá v dev i v app.asar.unpacked
+function resolvePreload(preloadRelativePath = 'preload.js') {
+  const devPath = path.join(__dirname, preloadRelativePath);
+  if (fs.existsSync(devPath)) return devPath;
+
+  const unpacked = path.join(process.resourcesPath, 'app.asar.unpacked', preloadRelativePath);
+  if (fs.existsSync(unpacked)) return unpacked;
+
+  return devPath;
+}
+
 function createWindow() {
+  const preloadPath = resolvePreload('preload.js');
+  console.log('Using preload:', preloadPath, 'exists:', fs.existsSync(preloadPath));
+  console.log('__dirname:', __dirname);
+  console.log('process.resourcesPath:', process.resourcesPath);
+  console.log('userData (for app files):', app.getPath('userData'));
+
+  const devIcon = path.join(__dirname, 'src', 'images', 'favicon.ico'); // vývojová ikona
+  const prodIcon = path.join(process.resourcesPath || '', 'build', 'icon.ico'); // po zabalení electron-builder vloží sem
+  let iconPath;
+  if (fs.existsSync(devIcon)) {
+    iconPath = devIcon;
+  } else if (fs.existsSync(prodIcon)) {
+    iconPath = prodIcon;
+  } else {
+    iconPath = undefined; // fallback - Electron použije defaultní icon
+  }
+
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 900,
     fullscreen: true,
     resizable: true,
-    icon: path.join(__dirname, 'src', 'images', 'favicon.ico'),
+    icon: iconPath,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
+      preload: preloadPath,
       contextIsolation: true,
       nodeIntegration: false
     }
@@ -33,7 +56,6 @@ function createWindow() {
 
   mainWindow.on('will-resize', (event, newBounds) => {
     if (!mainWindow || mainWindow.isFullScreen() || mainWindow.isMaximized()) return;
-
     event.preventDefault();
 
     const oldBounds = mainWindow.getBounds();
@@ -79,26 +101,18 @@ function createWindow() {
   });
 }
 
-ipcMain.on('app-quit', () => {
-  app.quit();
-});
-
-ipcMain.on('window-minimize', () => {
-  if (mainWindow) mainWindow.minimize();
-});
-
+// --- window / ui ipc ---
+ipcMain.on('app-quit', () => app.quit());
+ipcMain.on('window-minimize', () => { if (mainWindow) mainWindow.minimize(); });
 ipcMain.on('window-hide', () => {
   if (!mainWindow) return;
-
   if (isWindowFullscreen) {
     mainWindow.setFullScreen(false);
-
-    const { width, height } = require('electron').screen.getPrimaryDisplay().workAreaSize;
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     const newWidth = 1600;
     const newHeight = 900;
     const x = Math.floor((width - newWidth) / 2);
     const y = Math.floor((height - newHeight) / 2);
-
     mainWindow.setBounds({ x, y, width: newWidth, height: newHeight });
     isWindowFullscreen = false;
   } else {
@@ -106,63 +120,42 @@ ipcMain.on('window-hide', () => {
     isWindowFullscreen = true;
   }
 });
-
-ipcMain.on('window-close', () => {
-  if (mainWindow) mainWindow.close();
-});
-
-ipcMain.handle('get-users', () => {
-  const stmt = db.prepare("SELECT id, username FROM users");
-  return stmt.all();
-});
-
-ipcMain.handle('get-window-mode', () => {
-  return isWindowFullscreen ? 'fullscreen' : 'windowed';
-});
-
+ipcMain.on('window-close', () => { if (mainWindow) mainWindow.close(); });
 ipcMain.on('set-window-mode', (event, { mode }) => {
   if (!mainWindow) return;
   const isFull = mode === 'fullscreen';
   mainWindow.setFullScreen(isFull);
-
   if (!isFull) {
-    const { width, height } = require('electron').screen.getPrimaryDisplay().workAreaSize;
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     const newWidth = 1600;
     const newHeight = 900;
     const x = Math.floor((width - newWidth) / 2);
     const y = Math.floor((height - newHeight) / 2);
     mainWindow.setBounds({ x, y, width: newWidth, height: newHeight });
   }
-
   isWindowFullscreen = isFull;
 });
-
-ipcMain.on('open-external', (event, url) => { 
-    shell.openExternal(url);
-});
+ipcMain.on('open-external', (event, url) => { shell.openExternal(url); });
 
 function loadLogin() {
   if (!mainWindow) return;
   mainWindow.loadFile(path.join(__dirname, 'src', 'login.html'))
     .catch(err => console.error('Nelze načíst login.html:', err));
 }
-
-ipcMain.on('load-login', () => {
-  loadLogin();
-});
-
+ipcMain.on('load-login', () => loadLogin());
 ipcMain.on('load-index', () => {
   if (!mainWindow) return;
   mainWindow.loadFile(path.join(__dirname, 'src', 'index.html'))
     .catch(err => console.error('Nelze načíst index.html:', err));
 });
 
-app.whenReady().then(createWindow);
+// jednoduché IPC handlery, bez lokální DB
+ipcMain.handle('get-window-mode', () => (isWindowFullscreen ? 'fullscreen' : 'windowed'));
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit();
+// start app
+app.whenReady().then(() => {
+  createWindow();
 });
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) createWindow();
-});
+app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
+app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });

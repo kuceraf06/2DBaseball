@@ -15,8 +15,16 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/info.css?v='
     <section class="updates-section">
         <div class="updates-grid" id="updatesGrid">
             <div class="update-card">
+                <h3>[Bug]</h3>
+                <p>The ready button can be pressed before the pitch is ready, which means that the pitch will not take place, but the AI can steal the base.</p>
+            </div>
+            <div class="update-card">
                 <h3>[Update 17.12.2025]</h3>
                 <p>Fixing the disappearance of runners who steal second base on a pitch.</p>
+            </div>
+            <div class="update-card">
+                <h3>[Bug]</h3>
+                <p>A steal and a pickoff at the same time in an offense cause the AI to throw a pickoff at the base the runner is stealing.</p>
             </div>
             <div class="update-card">
                 <h3>[Bug]</h3>
@@ -25,6 +33,10 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/info.css?v='
             <div class="update-card">
                 <h3>[Update 20.11.2025]</h3>
                 <p>New graphics when switching between defense and offense.</p>
+            </div>
+            <div class="update-card">
+                <h3>[Bug]</h3>
+                <p>When the bat and ball make contact, instead of the name of the batter who hits the ball, the name of the batter on deck is displayed.</p>
             </div>
             <div class="update-card">
                 <h3>[Update 16.11.2025]</h3>
