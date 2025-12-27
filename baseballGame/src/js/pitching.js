@@ -278,7 +278,7 @@ function evaluatePitch() {
   const pos = Math.min(slider.handleX - slider.x, total);
 
   if (pos < gray1) return 'BALL';
-  else if (pos < gray1 + blue) return Math.random() < 0.5 ? 'BALL' : 'STRIKE';
+  else if (pos < gray1 + blue) return Math.random() < 0.5 ? 'STRIKE' : 'BALL';
   else if (pos < gray1 + blue + green) return 'STRIKE';
   else return 'BALL';
 }
