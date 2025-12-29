@@ -17,7 +17,7 @@ if (!$user) {
     die("User not found.");
 }
 
-$pageTitle = "2D Baseball | About";
+$pageTitle = "2D Baseball | Account";
 $pageDescription = "Account page for 2D Baseball Simulator allows to manage account’s details.";
 
 $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/account.css?v=' . time() . '">';

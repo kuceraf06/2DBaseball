@@ -45,7 +45,7 @@ body {
   text-transform: uppercase;
   font-weight: 700;
   letter-spacing: 1px;
-  width: 15rem;
+  width: 18rem;
   padding: 0.75rem 1.5rem;
   border: 1px solid white;
   cursor: pointer;
@@ -74,6 +74,12 @@ body {
 
 .startMenu .cross {
   font-size: 1.3rem;
+  top: -1px;
+}
+
+.startMenu .checkUpdate {
+  font-size: 1.4rem;
+  font-weight: 100;
   top: -1px;
 }
 
@@ -323,8 +329,9 @@ canvas {
 .menuContent {
   padding-bottom: 0px !important;
 }
-.menuContent p {
+.menuContent span {
   font-size: 12px;
+  margin-bottom: 10px;
   color: rgb(224, 224, 224);
 }
 

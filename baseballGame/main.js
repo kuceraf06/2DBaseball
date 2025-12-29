@@ -16,6 +16,20 @@ function resolvePreload(preloadRelativePath = 'preload.js') {
   return devPath;
 }
 
+function isNewerVersion(remote, local) {
+  const r = remote.split('.').map(Number);
+  const l = local.split('.').map(Number);
+
+  for (let i = 0; i < Math.max(r.length, l.length); i++) {
+    const rv = r[i] || 0;
+    const lv = l[i] || 0;
+
+    if (rv > lv) return true;
+    if (rv < lv) return false;
+  }
+  return false;
+}
+
 function checkForUpdates() {
   return new Promise((resolve, reject) => {
     const https = require('https');
@@ -36,29 +50,51 @@ function checkForUpdates() {
 }
 
 const currentVersion = app.getVersion();  
-async function promptUpdate() {
+async function promptUpdate(showDialog = false) {
   try {
     const updateInfo = await checkForUpdates();
+    const currentVersion = app.getVersion();
 
-    console.log('CURRENT VERSION:', currentVersion);
-    console.log('UPDATE VERSION:', updateInfo.version);
-
-    if (updateInfo.version !== currentVersion) {
-      const choice = dialog.showMessageBoxSync(mainWindow, {
-        type: 'info',
-        buttons: ['Download', 'Later'],
-        defaultId: 0,
-        cancelId: 1,
-        title: 'Update Available',
-        message: `A new version (${updateInfo.version}) is available. Do you want to download it?`
-      });
-
-      if (choice === 0) {
-        shell.openExternal(updateInfo.url); 
+    if (isNewerVersion(updateInfo.version, currentVersion)) {
+      if (showDialog && mainWindow) {
+        const choice = dialog.showMessageBoxSync(mainWindow, {
+          type: 'info',
+          buttons: ['Download', 'Later'],
+          defaultId: 0,
+          cancelId: 1,
+          title: 'Update Available',
+          message: `A new version (${updateInfo.version}) is available.\nDo you want to download it?`
+        });
+        if (choice === 0) shell.openExternal(updateInfo.url);
       }
+    } else if (showDialog && mainWindow) {
+      dialog.showMessageBoxSync(mainWindow, {
+        type: 'info',
+        buttons: ['OK'],
+        defaultId: 0,
+        title: 'Up to date',
+        message: `You already have the latest version (${currentVersion}).`
+      });
     }
+
+    return {
+      hasUpdate: isNewerVersion(updateInfo.version, currentVersion),
+      current: currentVersion,
+      latestVersion: updateInfo.version,
+      url: updateInfo.url
+    };
+
   } catch (err) {
-    console.error('Update check failed:', err);
+    if (showDialog && mainWindow) {
+      dialog.showMessageBoxSync(mainWindow, {
+        type: 'error',
+        buttons: ['OK'],
+        defaultId: 0,
+        title: 'Update check failed',
+        message: `Could not check for updates.\nError: ${err.message}`
+      });
+    }
+    return { error: true };
   }
 }
 
@@ -154,9 +190,8 @@ function createWindow() {
 }
 
 ipcMain.handle('manual-update-check', async () => {
-  await promptUpdate();
+  return await promptUpdate(true);
 });
-
 
 ipcMain.on('app-quit', () => app.quit());
 ipcMain.on('window-minimize', () => { if (mainWindow) mainWindow.minimize(); });
@@ -206,6 +241,10 @@ ipcMain.on('load-index', () => {
 });
 
 ipcMain.handle('get-window-mode', () => (isWindowFullscreen ? 'fullscreen' : 'windowed'));
+
+ipcMain.handle('get-app-version', () => {
+  return app.getVersion();
+});
 
 app.whenReady().then(() => {
   createWindow();

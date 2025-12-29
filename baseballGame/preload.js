@@ -13,14 +13,9 @@ contextBridge.exposeInMainWorld("api", {
     openExternal: (url) => ipcRenderer.send("open-external", url),
 
     loadIndex: () => ipcRenderer.send("load-index"),
-    loadLogin: () => ipcRenderer.send("load-login")
-});
+    loadLogin: () => ipcRenderer.send("load-login"),
 
-window.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('check-update-btn');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      ipcRenderer.invoke('manual-update-check');
-    });
-  }
+    getAppVersion: () => ipcRenderer.invoke("get-app-version"),
+    
+    checkForUpdates: () => ipcRenderer.invoke("manual-update-check")
 });

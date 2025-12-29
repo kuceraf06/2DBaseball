@@ -37,7 +37,7 @@
       <button id="menuSettingsBtn" class="menuBtn">Settings <i class='bx bx-cog'></i></button>
       <a href="https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/about" target="_blank"><button id="menuSettingsBtn" class="menuBtn">About <i class='bx bx-right-top-arrow-circle arrow-up'></i></button></a>
       <button id="exitAppBtn" class="menuBtn">Exit <i class='bx bx-log-out'></i></button>
-      <p>Version: 1.0.0</p>
+      <span id="appVersion">–</span>
       <button class="closeModalBtn" id="closeMenuCross">&times;</button>
     </div>
   </div>
@@ -178,8 +178,8 @@
     <button id="playBtn" class="startBtn">Play <i class='bx bx-play-circle'></i></button>
     <a href="https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/about" target="_blank"><button class="startBtn">About  <i class='bx bx-right-top-arrow-circle arrow-start'></i></button></a>
     <button id="startLogoutBtn" class="startBtn">Logout <i class='bx bx-log-out'></i></button>
-    <button id="check-update-btn" class="startBtn">Check Game</button>
-    <button class="startBtn">Exit <i class='bx bx-x cross'></i></button>
+    <button id="check-update-btn" class="startBtn">Check Update <i class='bx bx-error-alt checkUpdate'></i></button>
+    <button class="startBtn exitBtn">Exit <i class='bx bx-x cross'></i></button>
   </div>
 
   <div class="gameWrapper">
@@ -219,6 +219,33 @@
       Press Enter to return to the menu
     </div>
   </div>  
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const btn = document.getElementById("check-update-btn");
+
+      if (!btn) return;
+
+     btn.addEventListener("click", async () => {
+        btn.disabled = true;
+        await window.api.checkForUpdates(); // dialog se už otevře z main process
+        btn.disabled = false;
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      if (window.api && window.api.getAppVersion) {
+        try {
+          const version = await window.api.getAppVersion();
+          document.getElementById("appVersion").textContent = `Version ${version}`;
+        } catch (e) {
+          console.error("Failed to load app version", e);
+          document.getElementById("appVersion").textContent = "Version ?";
+        }
+      }
+    });
+  </script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll('a').forEach(link => {

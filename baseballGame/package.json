@@ -1,11 +1,12 @@
 {
   "name": "2dbaseball",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "2D Baseball — baseball game developed in HTML5, CSS and JavaScript.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder",
+    "prebuild": "node build-icon.js",
     "test": "jest --verbose"
   },
   "keywords": [
@@ -22,6 +23,7 @@
     "electron": "^38.3.0",
     "electron-builder": "^26.0.12",
     "jest": "^30.2.0",
+    "jimp": "^1.6.0",
     "rcedit": "^4.0.1"
   },
   "build": {
@@ -44,6 +46,16 @@
       "target": "nsis",
       "icon": "build/favicon.ico",
       "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
     }
+  },
+  "dependencies": {
+    "to-ico": "^1.1.5"
   }
 }

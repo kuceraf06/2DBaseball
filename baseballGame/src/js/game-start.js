@@ -16,7 +16,6 @@ const startLogoutBtn = document.getElementById('startLogoutBtn');
 const logoutModal = document.getElementById('confirmLogoutModal');
 const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
 const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
-const exitBtn = startScreen.querySelectorAll('.startBtn')[3];
 
 playBtn.addEventListener('click', () => {
   startScreen.style.display = 'none';
@@ -44,10 +43,6 @@ confirmLogoutBtn.addEventListener('click', () => {
   startScreen.style.display = 'flex';
 });
 
-exitBtn.addEventListener('click', () => {
-  window.api.quitApp();
-});
-
 document.getElementById('minimizeBtn').addEventListener('click', () => {
   window.api.minimize();
 });
@@ -64,7 +59,7 @@ document.getElementById('exitAppBtn').addEventListener('click', () => {
   window.api.quitApp();
 });
 
-const startExitBtn = startScreen.querySelector('.startBtn:last-child');
+const startExitBtn = startScreen.querySelector('.exitBtn');
 if (startExitBtn) {
   startExitBtn.addEventListener('click', () => {
     window.api.quitApp();
