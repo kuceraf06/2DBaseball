@@ -20,7 +20,7 @@ function checkForUpdates() {
   return new Promise((resolve, reject) => {
     const https = require('https');
 
-    https.get('https://raw.githubusercontent.com/kuceraf06/2DBaseball/baseballGame/update.json', res => {
+    https.get('https://raw.githubusercontent.com/kuceraf06/2DBaseball/main/baseballGame/update.json', res => {
       let data = '';
       res.on('data', chunk => { data += chunk; });
       res.on('end', () => {
@@ -39,6 +39,9 @@ const currentVersion = app.getVersion();
 async function promptUpdate() {
   try {
     const updateInfo = await checkForUpdates();
+
+    console.log('CURRENT VERSION:', currentVersion);
+    console.log('UPDATE VERSION:', updateInfo.version);
 
     if (updateInfo.version !== currentVersion) {
       const choice = dialog.showMessageBoxSync(mainWindow, {
