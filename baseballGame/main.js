@@ -35,7 +35,6 @@ function checkForUpdates() {
   });
 }
 
-const { dialog, shell } = require('electron');
 const currentVersion = app.getVersion();  
 async function promptUpdate() {
   try {
