@@ -6,7 +6,7 @@ A full 2D interactive baseball simulator built using Electron, allowing players 
 
 This part of the project lives in the directory:
 
-2DBaseball/
+2DBaseball/</br>
 └── baseballGame/
 
 
@@ -68,7 +68,7 @@ Follow these steps to launch the game from the baseballGame/ folder.
 
 1. Install Node.js
 
-Download from:
+Download from:</br>
 https://nodejs.org/
 
 (Required for Electron.)
@@ -77,7 +77,7 @@ https://nodejs.org/
 
 Option A — Local installation (recommended):
 
-npm install
+npm install</br>
 npm install electron
 
 
@@ -104,7 +104,7 @@ This will launch the 2D Baseball desktop app.
 
 To create a standalone .exe file:
 
-1. Install Electron Packager
+1. Install Electron Packager</br>
 npm install electron-packager -D
 
 2. Run Packager Command
@@ -120,9 +120,54 @@ Your .exe will appear in the /dist/2DBaseball-win32-x64/ folder.
 
 This folder contains a fully portable desktop version of the game.
 
-Optional: Build for other platforms
---platform=linux
+Optional: Build for other platforms</br>
+--platform=linux</br>
 --platform=darwin   (Mac)
+
+
+</br>
+</br> 
+🧪 Automated Testing (Jest)</br>
+
+The project includes automated tests to verify core game logic and functionality.
+
+Testing is handled using Jest, a JavaScript testing framework.
+
+</br> 
+⚙️ How Testing Works</br>
+
+Tests are focused on validating:
+
+Game logic (rules, states, calculations)
+
+Core mechanics (pitching, hitting logic, AI decisions)
+
+Utility functions and helpers
+
+The tests run in a Node.js environment and do not require Electron to be launched.
+
+</br> 
+🚀 How to Run Tests</br>
+
+Install Jest (if not already installed)
+
+Inside the baseballGame/ folder run:
+
+npm install --save-dev jest
+
+
+Run Automated Tests
+
+From the same folder, execute:
+
+npm test
+
+
+Jest will automatically:
+
+Locate all test files</br>
+Execute test cases</br>
+Display pass/fail results directly in the terminal
 
 </br>
 </br>

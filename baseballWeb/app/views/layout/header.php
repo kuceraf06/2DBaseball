@@ -55,7 +55,7 @@ if (session_status() === PHP_SESSION_NONE) {
                     </div>
                 </div>
             <?php endif; ?>
-            <a href="download.php" class="btn-download">Download</a>
+            <a href="download" class="btn-download">Download</a>
         </div>
         
         <button class="hamburger" id="hamburgerBtn">

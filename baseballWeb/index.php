@@ -57,6 +57,10 @@ switch ($route) {
         $view = 'reset_password';
         break;
 
+    case 'download':
+        $view = 'download';
+        break;
+
     default:
         http_response_code(404);
         $view = '404';

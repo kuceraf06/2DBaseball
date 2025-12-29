@@ -1,11 +1,11 @@
-const { app, BrowserWindow, ipcMain, shell, screen } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell, screen } = require('electron');
 const path = require('path');
+const https = require("https");
 const fs = require('fs');
 
 let mainWindow;
 let isWindowFullscreen = true;
 
-// resolve preload - hledá v dev i v app.asar.unpacked
 function resolvePreload(preloadRelativePath = 'preload.js') {
   const devPath = path.join(__dirname, preloadRelativePath);
   if (fs.existsSync(devPath)) return devPath;
@@ -16,6 +16,50 @@ function resolvePreload(preloadRelativePath = 'preload.js') {
   return devPath;
 }
 
+function checkForUpdates() {
+  return new Promise((resolve, reject) => {
+    const https = require('https');
+
+    https.get('https://raw.githubusercontent.com/kuceraf06/2DBaseball/baseballGame/update.json', res => {
+      let data = '';
+      res.on('data', chunk => { data += chunk; });
+      res.on('end', () => {
+        try {
+          const updateInfo = JSON.parse(data);
+          resolve(updateInfo);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    }).on('error', err => reject(err));
+  });
+}
+
+const { dialog, shell } = require('electron');
+const currentVersion = app.getVersion();  
+async function promptUpdate() {
+  try {
+    const updateInfo = await checkForUpdates();
+
+    if (updateInfo.version !== currentVersion) {
+      const choice = dialog.showMessageBoxSync(mainWindow, {
+        type: 'info',
+        buttons: ['Download', 'Later'],
+        defaultId: 0,
+        cancelId: 1,
+        title: 'Update Available',
+        message: `A new version (${updateInfo.version}) is available. Do you want to download it?`
+      });
+
+      if (choice === 0) {
+        shell.openExternal(updateInfo.url); 
+      }
+    }
+  } catch (err) {
+    console.error('Update check failed:', err);
+  }
+}
+
 function createWindow() {
   const preloadPath = resolvePreload('preload.js');
   console.log('Using preload:', preloadPath, 'exists:', fs.existsSync(preloadPath));
@@ -23,15 +67,15 @@ function createWindow() {
   console.log('process.resourcesPath:', process.resourcesPath);
   console.log('userData (for app files):', app.getPath('userData'));
 
-  const devIcon = path.join(__dirname, 'src', 'images', 'favicon.ico'); // vývojová ikona
-  const prodIcon = path.join(process.resourcesPath || '', 'build', 'icon.ico'); // po zabalení electron-builder vloží sem
+  const devIcon = path.join(__dirname, 'src', 'images', 'favicon.ico');
+  const prodIcon = path.join(process.resourcesPath || '', 'build', 'icon.ico');
   let iconPath;
   if (fs.existsSync(devIcon)) {
     iconPath = devIcon;
   } else if (fs.existsSync(prodIcon)) {
     iconPath = prodIcon;
   } else {
-    iconPath = undefined; // fallback - Electron použije defaultní icon
+    iconPath = undefined;
   }
 
   mainWindow = new BrowserWindow({
@@ -99,9 +143,19 @@ function createWindow() {
 
     mainWindow.setBounds({ x, y, width: newWidth, height: newHeight });
   });
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+    promptUpdate(); 
+  });
+
 }
 
-// --- window / ui ipc ---
+ipcMain.handle('manual-update-check', async () => {
+  await promptUpdate();
+});
+
+
 ipcMain.on('app-quit', () => app.quit());
 ipcMain.on('window-minimize', () => { if (mainWindow) mainWindow.minimize(); });
 ipcMain.on('window-hide', () => {
@@ -149,10 +203,8 @@ ipcMain.on('load-index', () => {
     .catch(err => console.error('Nelze načíst index.html:', err));
 });
 
-// jednoduché IPC handlery, bez lokální DB
 ipcMain.handle('get-window-mode', () => (isWindowFullscreen ? 'fullscreen' : 'windowed'));
 
-// start app
 app.whenReady().then(() => {
   createWindow();
 });

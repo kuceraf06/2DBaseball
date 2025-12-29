@@ -15,3 +15,12 @@ contextBridge.exposeInMainWorld("api", {
     loadIndex: () => ipcRenderer.send("load-index"),
     loadLogin: () => ipcRenderer.send("load-login")
 });
+
+window.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('check-update-btn');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      ipcRenderer.invoke('manual-update-check');
+    });
+  }
+});
