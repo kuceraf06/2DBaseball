@@ -105,16 +105,9 @@ function createWindow() {
   console.log('process.resourcesPath:', process.resourcesPath);
   console.log('userData (for app files):', app.getPath('userData'));
 
-  const devIcon = path.join(__dirname, 'src', 'images', 'favicon.ico');
-  const prodIcon = path.join(process.resourcesPath || '', 'build', 'icon.ico');
-  let iconPath;
-  if (fs.existsSync(devIcon)) {
-    iconPath = devIcon;
-  } else if (fs.existsSync(prodIcon)) {
-    iconPath = prodIcon;
-  } else {
-    iconPath = undefined;
-  }
+  const iconPath = app.isPackaged
+  ? path.join(process.resourcesPath, 'build', 'favicon.png')
+  : path.join(__dirname, 'build', 'favicon.png');
 
   mainWindow = new BrowserWindow({
     width: 1600,

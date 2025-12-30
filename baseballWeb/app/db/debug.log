@@ -1,29 +1,5 @@
-[20:25:40] Login attempt: login=NULL
-[20:25:40] User found: ID 41
-[20:25:40] Token generated and saved for user ID 41
-[20:27:52] Login attempt: login=NULL
-[20:27:58] User found: ID 41
-[20:27:59] Token generated and saved for user ID 41
-[20:31:03] Login attempt: login=NULL
-[11:40:41] me.php called with token: 
-[11:40:47] Login attempt: login=NULL
-[11:40:56] Login attempt: login=NULL
-[11:40:57] User found: ID 41
-[11:40:57] Token generated and saved for user ID 41
-[11:41:08] me.php called with token: 
-[11:41:21] Login attempt: login=NULL
-[11:41:29] Login attempt: login=NULL
-[11:41:29] User found: ID 41
-[11:41:29] Token generated and saved for user ID 41
-[11:43:34] Login attempt: login=NULL
-[11:43:34] User found: ID 41
-[11:43:34] Token generated and saved for user ID 41
-[02:01:31] Login attempt: login=Fidzip
-[02:01:32] Token generated and saved for user ID 41
-[02:18:17] Login attempt: login=NULL
-[02:18:22] Login attempt: login=NULL
-[02:18:22] User found: ID 41
-[02:18:22] User found: ID 41
-[02:18:23] Token generated and saved for user ID 41
-[02:18:23] Token generated and saved for user ID 41
-[02:18:23] me.php called with token: 057d2b47ab80498b0ac184fb089e5594789bc8eb62edc8b2a2e1a0c742c28642
+[14:20:25] me.php called with token: 55c6291c1652963c527394e21df8181f2130592b4c28129ad9c6db41330ab45b
+[14:20:45] Login attempt: login=NULL
+[14:20:45] User found: ID 1
+[14:20:45] Token generated and saved for user ID 1
+[14:20:46] me.php called with token: f49a6d4c07d08dce797d5b8c95abb855093c4a60603b433abb1c328a70293ba6
