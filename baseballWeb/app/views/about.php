@@ -38,7 +38,7 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/about.css?v=
         </div>
         <div class="about-text">
             <h2>Future Plans For Company</h2>
-            <p>We have big plans for our community; specifically, if we succeed in this game format, we would like to rename the company 2D Baseball to 2D Sports and develop all possible kinds of sports in a 2D pixel art interface. For example, soccer, American football, hockey, basketball, and many more!</p>
+            <p>We have big plans for our community; specifically, if we succeed in this game format, we will like to rename the company 2D Baseball to 2D Sports and develop all possible kinds of sports in a 2D pixel art interface. For example, soccer, American football, hockey, basketball, and many more!</p>
         </div>
     </section>
 

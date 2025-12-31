@@ -44,14 +44,14 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/how-to-play.
 
             <div class="step">
                 <div class="step-number">3</div>
-                <h3>Players positon</h3>
-                <p>Select a player, give him the right positon to make throwing easy.</p>
+                <h3>Players position</h3>
+                <p>Select a player, give him the right position to make throwing easy.</p>
             </div>
 
             <div class="step">
                 <div class="step-number">4</div>
                 <h3>Get outs</h3>
-                <p>Get strikeouts by pitching - 3 outs change sides.</p>
+                <p>Get strikeouts by pitching - 3 outs switch sides.</p>
             </div>
         </div>
     </section>
