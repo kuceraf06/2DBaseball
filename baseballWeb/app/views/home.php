@@ -10,7 +10,7 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/style.css?v=
         <p>Experience pitching, hitting, throwing, or stealing bases in a 2D Baseball simulator today!</p>
         <div class="buttons">
             <a href="about">About</a>
-            <a href="#download">Download</a>
+            <a href="download">Download</a>
         </div>
     </div>
 </main>

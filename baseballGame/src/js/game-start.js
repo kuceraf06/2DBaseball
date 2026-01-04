@@ -26,6 +26,12 @@ playBtn.addEventListener('click', () => {
   matchInProgress = true;
   matchFinished = false;
 
+  if (gameState === 'offense') {
+    showStateTransition("NOW YOU GO HIT!");
+  } else {
+    showStateTransition("NOW YOU GO PITCH!");
+  }
+
   console.log("MATCH STARTED");
 });
 

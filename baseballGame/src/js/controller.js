@@ -23,11 +23,10 @@ function initController(canvas) {
         { label: "3B", x: centerX - spacing, y: centerY }
     );
 
-    // 🧠 Přidáme click listener jen jednou
     if (!controllerInitialized) {
         canvas.addEventListener('click', handleControllerClick);
         canvas.addEventListener('mousemove', e => updateCursor(canvas, e));
-        document.addEventListener('keydown', handleControllerKey); // 🧠 přidáno
+        document.addEventListener('keydown', handleControllerKey);
         controllerInitialized = true;
     }
 }
@@ -51,8 +50,7 @@ function handleControllerClick(e) {
         const dy = Math.abs(mouseY - base.y);
 
         if (dx + dy < size) {
-            // 🧠 Házíme odkudkoliv, kde je míč, ale jen pokud hráč krade
-            if (ball.owner && runnersInStealing) {  // <-- přidáno runnerStealing
+            if (ball.owner && runnersInStealing) {
                 clickedBase = base.label;  
                 hasThrownDuringSteal = true;
                 throwBall(ball.owner, base.label);
@@ -97,34 +95,33 @@ function drawController(ctx, canvas) {
     ctx.textBaseline = "middle";
     ctx.font = "16px Arial";
 
-    initController(canvas);
-
-    const size = 60;
-
-    // 🔸 vykreslení met
-    controllerBases.forEach(base => {
-        ctx.beginPath();
-        ctx.moveTo(base.x, base.y - size);
-        ctx.lineTo(base.x + size, base.y);
-        ctx.lineTo(base.x, base.y + size);
-        ctx.lineTo(base.x - size, base.y);
-        ctx.closePath();
-
-        if (clickedBase === base.label) {
-            ctx.fillStyle = "rgba(255,215,0,0.8)";
-        } else {
-            ctx.fillStyle = "rgba(0,0,0,0.4)";
-        }
-
-        ctx.fill();
-        ctx.stroke();
-        ctx.fillStyle = "white";
-        ctx.fillText(base.label, base.x, base.y);
-        ctx.fillStyle = "rgba(0,0,0,0.4)";
-    });
-
     if (gameState === 'defense') {
-        // 🔸 STOP tlačítko
+
+        initController(canvas);
+
+        const size = 60;
+
+        controllerBases.forEach(base => {
+            ctx.beginPath();
+            ctx.moveTo(base.x, base.y - size);
+            ctx.lineTo(base.x + size, base.y);
+            ctx.lineTo(base.x, base.y + size);
+            ctx.lineTo(base.x - size, base.y);
+            ctx.closePath();
+
+            if (clickedBase === base.label) {
+                ctx.fillStyle = "rgba(255,215,0,0.8)";
+            } else {
+                ctx.fillStyle = "rgba(0,0,0,0.4)";
+            }
+
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "white";
+            ctx.fillText(base.label, base.x, base.y);
+            ctx.fillStyle = "rgba(0,0,0,0.4)";
+        });
+
         const stopRadius = 60;
         const stopX = 175;
         const stopY = canvas.height - 125;
@@ -139,7 +136,6 @@ function drawController(ctx, canvas) {
         ctx.fillText("STOP", stopX, stopY);
     }
 
-    // 🔸 SWING tlačítko
     if (gameState === 'offense' || clickedSwing) {
         const swingRadius = 60;
         const swingX = 175;

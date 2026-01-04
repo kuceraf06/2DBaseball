@@ -309,6 +309,18 @@ function resetGame() {
   selectedPitch = 'FB';
   lastPitch = null;
 
+  slider.active = false;
+  slider.stopped = false;
+  slider.result = null;
+
+  pitchTypeContainer.style.display = 'block';
+
+  document.querySelectorAll('.pitchTypeBtn').forEach(b =>
+    b.classList.remove('activePitch')
+  );
+  document.querySelector('.pitchTypeBtn[data-pitch="FB"]')
+    ?.classList.add('activePitch');
+
   resultText = '';
   resultTextColor = 'black';
   clearTimeout(resultTextTimeout);
