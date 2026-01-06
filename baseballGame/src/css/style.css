@@ -112,7 +112,7 @@ canvas {
   top: calc((0 / var(--design-h)) * 100vh);
   right: calc((0 / var(--design-w)) * 100vw);
   display: flex;
-  z-index: 10000;
+  z-index: 100000;
 }
 
 .winBtn {

@@ -11,6 +11,7 @@
   <meta name="theme-color" content="#4caf50"/>
   <meta name="referrer" content="no-referrer-when-downgrade" />
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/tutorial.css">
   <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.ico">
   <link href='https://unpkg.com/boxicons@latest/css/boxicons.min.css' rel='stylesheet'>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -174,8 +175,29 @@
     </div>
   </div>
 
+  <div id="tutorialModal" class="modal">
+    <div class="modalContent tutorialContent">
+      <h2>Tutorial</h2>
+
+      <div class="tutorialViewer">
+        <button id="tutorialPrev" class="tutorialNav">&larr;</button>
+
+        <img id="tutorialImage" src="" alt="Tutorial slide">
+
+        <button id="tutorialNext" class="tutorialNav">&rarr;</button>
+      </div>
+
+      <div class="tutorialFooter">
+        <span id="tutorialCounter"></span>
+      </div>
+
+      <button class="closeModalBtn" id="closeTutorial">&times;</button>
+    </div>
+  </div>
+
   <div id="startScreen" class="startMenu">
     <button id="playBtn" class="startBtn">Play <i class='bx bx-play-circle'></i></button>
+    <button id="tutorial" class="startBtn">Tutorial <i class='bx bx-play-circle'></i></button>
     <a href="https://xeon.spskladno.cz/~kuceraf/2DBaseball/baseballWeb/about" target="_blank"><button class="startBtn">About  <i class='bx bx-right-top-arrow-circle arrow-start'></i></button></a>
     <button id="check-update-btn" class="startBtn">Check Update <i class='bx bx-error-alt checkUpdate'></i></button>
     <button id="startLogoutBtn" class="startBtn">Logout <i class='bx bx-log-out'></i></button>
@@ -227,7 +249,7 @@
 
      btn.addEventListener("click", async () => {
         btn.disabled = true;
-        await window.api.checkForUpdates(); // dialog se už otevře z main process
+        await window.api.checkForUpdates();
         btn.disabled = false;
       });
     });
@@ -329,6 +351,7 @@
   <script src="js/throwing.js"></script>
   <script src="js/controller.js"></script>
   <script src="js/scale.js"></script>
+  <script src="js/tutorial.js"></script>
 
 </body>
 </html>
