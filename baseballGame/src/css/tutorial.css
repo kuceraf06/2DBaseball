@@ -38,8 +38,33 @@
 
 .tutorialNav {
   font-size: 32px;
-  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 16px;
+  background-color: #eee;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tutorialNav:hover {
+  background-color: #cccccc;
+}
+
+.tutorialNav i {
+  margin-top: 5px;
+  color: black;
+}
+
+.tutorialNav:disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+.tutorialNav:hover:disabled {
+  background: none;
+  transform: none;
+  box-shadow: none;
 }
 
 .tutorialFooter {

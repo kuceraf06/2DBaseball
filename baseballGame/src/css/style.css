@@ -83,6 +83,10 @@ body {
   top: -1px;
 }
 
+.startMenu .tutorial {
+  top: -1px;
+}
+
 .gameWrapper { 
   display:none;
   width: 1920px;

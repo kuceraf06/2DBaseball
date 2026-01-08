@@ -31,6 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateTutorial() {
     tutorialImage.src = tutorialImages[tutorialIndex];
     tutorialCounter.textContent = `${tutorialIndex + 1} / ${tutorialImages.length}`;
+
+    prevBtn.disabled = tutorialIndex === 0;
+    nextBtn.disabled = tutorialIndex === tutorialImages.length - 1;
   }
 
   openBtn.addEventListener("click", () => {
