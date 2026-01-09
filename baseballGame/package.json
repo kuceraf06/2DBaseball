@@ -1,6 +1,6 @@
 {
   "name": "2dbaseball",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "2D Baseball — baseball game developed in HTML5, CSS and JavaScript.",
   "main": "main.js",
   "scripts": {
