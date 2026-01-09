@@ -52,6 +52,33 @@ body {
   color: black;
   transition: .2s all ease-in-out;
 }
+@media (max-width: 600px) {
+  .startMenu {
+    gap: 0.5rem;  
+  }
+
+  .startBtn {
+    width: 12rem;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .startMenu i {
+    font-size: 1rem;
+  }
+
+  .startMenu .arrow-start {
+    font-size: 1rem;
+  }
+
+  .startMenu .cross {
+    font-size: 1rem;
+  }
+
+  .startMenu .checkUpdate {
+    font-size: 1rem;
+  }
+}
 
 .startBtn:hover {
   background-color: rgba(0, 0, 0);

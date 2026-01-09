@@ -9,6 +9,8 @@ contextBridge.exposeInMainWorld("api", {
     setWindowMode: (mode) => ipcRenderer.send("set-window-mode", { mode }),
     getWindowMode: () => ipcRenderer.invoke("get-window-mode"),
 
+    onWindowModeChanged: (cb) =>
+        ipcRenderer.on('window-mode-changed', (_, mode) => cb(mode)),
 
     openExternal: (url) => ipcRenderer.send("open-external", url),
 

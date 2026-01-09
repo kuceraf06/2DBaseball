@@ -181,7 +181,8 @@ function startDoubleSteal(onComplete) {
 function finishSteal(onComplete, text = null) {
   runnersInMotion = false;
   runnersInStealing = false;
-    hasThrownDuringSteal = false;  
+  hasThrownDuringSteal = false;  
+  showResultText("SAFE!", "green");
   draw();
   endAnimation();
 

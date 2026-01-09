@@ -70,8 +70,13 @@ const throwButtonEl = document.getElementById('throwButton');
 function drawResultText() {
   if (resultText) {
     ctx.font = 'bold 38px sans-serif';
-    ctx.fillStyle = resultTextColor;
     ctx.textAlign = 'center';
+
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'black';
+    ctx.strokeText(resultText, centerX, homePlateY - 250);
+
+    ctx.fillStyle = resultTextColor;
     ctx.fillText(resultText, centerX, homePlateY - 250);
   }
 }
@@ -85,7 +90,6 @@ function showResultText(text, color = 'yellow', duration = 1500) {
     resultText = '';
   }, duration);
 }
-
 
 function addOut() {
   if (gameOver) return;

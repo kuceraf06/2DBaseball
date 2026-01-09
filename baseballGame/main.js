@@ -190,25 +190,32 @@ ipcMain.on('app-quit', () => app.quit());
 ipcMain.on('window-minimize', () => { if (mainWindow) mainWindow.minimize(); });
 ipcMain.on('window-hide', () => {
   if (!mainWindow) return;
+
   if (isWindowFullscreen) {
     mainWindow.setFullScreen(false);
+
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     const newWidth = 1600;
     const newHeight = 900;
     const x = Math.floor((width - newWidth) / 2);
     const y = Math.floor((height - newHeight) / 2);
     mainWindow.setBounds({ x, y, width: newWidth, height: newHeight });
+
     isWindowFullscreen = false;
   } else {
     mainWindow.setFullScreen(true);
     isWindowFullscreen = true;
   }
+
+  notifyWindowMode();
 });
 ipcMain.on('window-close', () => { if (mainWindow) mainWindow.close(); });
 ipcMain.on('set-window-mode', (event, { mode }) => {
   if (!mainWindow) return;
+
   const isFull = mode === 'fullscreen';
   mainWindow.setFullScreen(isFull);
+
   if (!isFull) {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     const newWidth = 1600;
@@ -217,9 +224,20 @@ ipcMain.on('set-window-mode', (event, { mode }) => {
     const y = Math.floor((height - newHeight) / 2);
     mainWindow.setBounds({ x, y, width: newWidth, height: newHeight });
   }
+
   isWindowFullscreen = isFull;
+  notifyWindowMode();
 });
 ipcMain.on('open-external', (event, url) => { shell.openExternal(url); });
+
+function notifyWindowMode() {
+  if (mainWindow) {
+    mainWindow.webContents.send(
+      'window-mode-changed',
+      isWindowFullscreen ? 'fullscreen' : 'windowed'
+    );
+  }
+}
 
 function loadLogin() {
   if (!mainWindow) return;

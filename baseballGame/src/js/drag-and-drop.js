@@ -8,6 +8,9 @@ function isInsidePlayer(player, mx, my) {
 }
 
 canvas.addEventListener('mousedown', e => {
+
+  if (gameState !== 'defense') return;
+
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
   const mouseY = e.clientY - rect.top;
@@ -23,6 +26,11 @@ canvas.addEventListener('mousedown', e => {
 });
 
 canvas.addEventListener('mousemove', e => {
+  if (gameState !== 'defense') {
+    canvas.style.cursor = 'default';
+    return;
+  }
+
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
   const mouseY = e.clientY - rect.top;

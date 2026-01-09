@@ -1,8 +1,13 @@
 function drawRunScored() {
   if (runScoredText) {
     ctx.font = 'bold 32px sans-serif';
-    ctx.fillStyle = 'gold';
     ctx.textAlign = 'center';
+
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = 'black';
+    ctx.strokeText(runScoredText, centerX, homePlateY - 250);
+
+    ctx.fillStyle = 'gold';
     ctx.fillText(runScoredText, centerX, homePlateY - 250);
   }
 }

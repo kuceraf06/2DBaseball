@@ -172,6 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
   volumeSlider = document.getElementById('volumeSlider');
   volumeIcon = document.getElementById('volumeIcon');
 
+  const savedWindowMode = localStorage.getItem('windowMode');
+
+  if (savedWindowMode && window.api?.setWindowMode) {
+    window.api.setWindowMode(savedWindowMode);
+  }
+
   function showConfirmExitModal(message, onConfirm) {
     confirmExitText.innerHTML = message;
     currentExitAction = onConfirm;
@@ -315,21 +321,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (desktopBtn) {
       const desktopIcon = desktopBtn.querySelector('i');
-      let isFullscreen = true;
 
-      function updateFullscreenIcon() {
-        desktopIcon.className = isFullscreen
-          ? 'bx bx-exit-fullscreen'
-          : 'bx bx-fullscreen';
+      async function syncFullscreenIcon() {
+        if (!window.api?.getWindowMode) return;
+
+        const mode = await window.api.getWindowMode();
+
+        window.api.onWindowModeChanged(mode => {
+          desktopIcon.className =
+            mode === 'fullscreen'
+              ? 'bx bx-exit-fullscreen'
+              : 'bx bx-fullscreen';
+        });
       }
 
-      desktopBtn.addEventListener('click', () => {
+      desktopBtn.addEventListener('click', async () => {
+        if (!window.api) return;
+
         window.api.toggleFullscreen();
-        isFullscreen = !isFullscreen;
-        updateFullscreenIcon();
+        setTimeout(syncFullscreenIcon, 150);
       });
 
-      updateFullscreenIcon();
+      syncFullscreenIcon();
     }
 
     if (closeBtn) {
@@ -542,11 +555,14 @@ document.addEventListener('DOMContentLoaded', () => {
     savedMutedBeforeModal = isMuted;
 
     if (window.api?.getWindowMode) {
-      savedWindowModeBeforeModal = await window.api.getWindowMode();
+        savedWindowModeBeforeModal =
+          localStorage.getItem('windowMode') || 'fullscreen';
 
-      const windowModeSelect = document.getElementById('windowModeSelect');
-      if (windowModeSelect && savedWindowModeBeforeModal) {
-        windowModeSelect.value = savedWindowModeBeforeModal;
+        const windowModeSelect = document.getElementById('windowModeSelect');
+
+        const savedMode = localStorage.getItem('windowMode');
+        if (windowModeSelect) {
+          windowModeSelect.value = savedMode || savedWindowModeBeforeModal;
         windowModeSelect.addEventListener('change', () => {
           unsavedChanges = true;
         });
@@ -645,7 +661,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const windowModeSelect = document.getElementById('windowModeSelect');
     if (windowModeSelect && window.api?.setWindowMode) {
-      window.api.setWindowMode(windowModeSelect.value);
+      const mode = windowModeSelect.value;
+
+      window.api.setWindowMode(mode);
+      localStorage.setItem('windowMode', mode);
     }
 
     try {
