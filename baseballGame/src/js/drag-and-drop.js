@@ -1,7 +1,3 @@
-let draggingPlayer = null;
-let offsetX = 0;
-let offsetY = 0;
-
 function isInsidePlayer(player, mx, my) {
   return mx >= player.x && mx <= player.x + playerSize &&
          my >= player.y && my <= player.y + playerSize;
@@ -18,8 +14,8 @@ canvas.addEventListener('mousedown', e => {
   for (let i = players.length - 1; i >= 0; i--) {
     if (players[i].name.startsWith('Polar') && isInsidePlayer(players[i], mouseX, mouseY)) {
       draggingPlayer = players[i];
-      offsetX = mouseX - draggingPlayer.x;
-      offsetY = mouseY - draggingPlayer.y;
+      dragOffsetX = mouseX - draggingPlayer.x;
+      dragOffsetY = mouseY - draggingPlayer.y;
       break;
     }
   }
@@ -47,8 +43,8 @@ canvas.addEventListener('mousemove', e => {
   } else {
     canvas.style.cursor = 'grabbing';
 
-    let newX = mouseX - offsetX;
-    let newY = mouseY - offsetY;
+    let newX = mouseX - dragOffsetX;
+    let newY = mouseY - dragOffsetY;
 
     const homeX = centerX;
     const homeY = homePlateY;

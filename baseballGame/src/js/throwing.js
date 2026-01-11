@@ -49,8 +49,8 @@ function throwBall(fromOwner, targetBaseLabel) {
   let startY = fromPlayer.y + playerSize / 2;
 
   if (fromPlayer.name === 'Polar_FirstBase' && runnersInStealing) {
-    startX = POS.FIRST.x - 15 + playerSize / 2;  // posun x
-    startY = POS.FIRST.y - 5 + playerSize / 2;   // posun y
+    startX = POS.FIRST.x - 15 + playerSize / 2;
+    startY = POS.FIRST.y - 5 + playerSize / 2;
   }
 
   if (toOwner === "secondBase") {

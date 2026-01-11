@@ -7,16 +7,6 @@ if (window.api && typeof window.api.getUsers === "function") {
     });
 }
 
-const startScreen = document.getElementById('startScreen');
-const gameWrapper = document.querySelector('.gameWrapper');
-
-const playBtn = startScreen.querySelector('#playBtn');
-const aboutBtn = startScreen.querySelector('a > .startBtn');
-const startLogoutBtn = document.getElementById('startLogoutBtn');
-const logoutModal = document.getElementById('confirmLogoutModal');
-const cancelLogoutBtn = document.getElementById('cancelLogoutBtn');
-const confirmLogoutBtn = document.getElementById('confirmLogoutBtn');
-
 playBtn.addEventListener('click', () => {
   startScreen.style.display = 'none';
   gameWrapper.style.display = 'block';
@@ -65,14 +55,12 @@ document.getElementById('exitAppBtn').addEventListener('click', () => {
   window.api.quitApp();
 });
 
-const startExitBtn = startScreen.querySelector('.exitBtn');
 if (startExitBtn) {
   startExitBtn.addEventListener('click', () => {
     window.api.quitApp();
   });
 }
 
-const windowModeSelect = document.getElementById('windowModeSelect');
 if (windowModeSelect) {
   windowModeSelect.addEventListener('change', (e) => {
     window.api.setWindowMode(e.target.value);

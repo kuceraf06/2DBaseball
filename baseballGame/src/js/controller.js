@@ -1,14 +1,4 @@
-let clickedStop = false;
-let clickedSwing = false;
-let canSwingEffect = true;
-let hoverStop = false;
-let hoverSwing = false;
-let clickedBase = null;
-
 const controllerBases = [];
-let controllerInitialized = false;
-
-let hasThrownDuringSteal = false;
 
 function initController(canvas) {
     const size = 60;
@@ -71,7 +61,6 @@ function handleControllerKey(e) {
     if (runnersInStealing && hasThrownDuringSteal) return;
     if (!ball.owner) return;
 
-    // normalize incoming key for custom binds
     const keyName = (typeof normalizeKeyName === 'function') ? normalizeKeyName(e.key) : e.key;
 
     let baseLabel = null;
@@ -197,11 +186,11 @@ function handleSwingClick(canvas, e) {
 
     if (dx * dx + dy * dy <= swingRadius * swingRadius && canSwingEffect) {
         clickedSwing = true;
-        canSwingEffect = false; // 🔹 zablokujeme efekt, dokud není nový nadhoz
+        canSwingEffect = false;
         triggerSwing();
 
         setTimeout(() => {
-            clickedSwing = false; // efekt zhasne
+            clickedSwing = false;
         }, 300);
     }
 }

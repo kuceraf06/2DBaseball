@@ -1,5 +1,3 @@
-let lastTime = performance.now();
-
 function sendPlayerToDugout(side = 'left', player = null, onArrive = null) {
   startAnimation();
   const home = { x: centerX, y: homePlateY };
@@ -33,8 +31,8 @@ function sendPlayerToDugout(side = 'left', player = null, onArrive = null) {
 }
 
 function updateDugoutRunners(currentTime = performance.now()) {
-  const deltaTime = (currentTime - lastTime) / 16.67; 
-  lastTime = currentTime;
+  const deltaTime = (currentTime - globalLastTime) / 16.67; 
+  globalLastTime = currentTime;
 
   for (let i = dugoutRunners.length - 1; i >= 0; i--) {
     const runner = dugoutRunners[i];

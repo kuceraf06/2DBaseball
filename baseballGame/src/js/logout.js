@@ -10,17 +10,6 @@ function logoutUser() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    const confirmModal = document.getElementById("confirmLogoutModal");
-
-    const openLogoutBtns = [
-        document.getElementById("logoutBtn"),
-        document.getElementById("startLogoutBtn")
-    ];
-
-    const confirmBtn = document.getElementById("confirmLogoutBtn");
-    const cancelBtn = document.getElementById("cancelLogoutBtn");
-
     openLogoutBtns.forEach(btn => {
         if (!btn) return;
         btn.addEventListener("click", () => {

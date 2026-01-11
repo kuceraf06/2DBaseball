@@ -1,6 +1,3 @@
-let stealAttempt2B = false;
-let stealAttempt3B = false;
-
 const stealBtn2B = document.getElementById("stealButton2B");
 const stealBtn3B = document.getElementById("stealButton3B");
 

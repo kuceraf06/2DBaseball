@@ -1,5 +1,3 @@
-const pitchTypeContainer = document.getElementById('pitchTypeContainer');
-
 function updatePitchTypeButtonsPosition() {
   const pitcher = players.find(p => p.name === 'Nadhazovac');
   if (!pitcher) return;
@@ -188,8 +186,6 @@ function drawSlider() {
   ctx.fillRect(slider.handleX - 2, slider.y, 4, slider.height);
 }
 
-let lastSliderTime = null;
-
 function updateSlider(now = performance.now()) {
   if (!slider.active || slider.stopped) {
     lastSliderTime = null; 
@@ -230,13 +226,7 @@ function updateSlider(now = performance.now()) {
     draw();
     ball.isSliderFlight = (selectedPitch === 'SL');
 
-    let speedFactor;
-    switch (selectedPitch) {
-      case 'FB': speedFactor = 0.011; break;
-      case 'CH': speedFactor = 0.005; break;
-      case 'SL': speedFactor = 0.008; break;
-      default: speedFactor = 0.01; break;
-    }
+    let speedFactor = PITCH_SPEEDS[selectedPitch] || 0.01;
 
     if (throwSound) {
       throwSound.currentTime = 0;
@@ -364,14 +354,7 @@ function triggerStopPitch() {
           throwSound.currentTime = 0;
           throwSound.play().catch(() => {}); 
         }
-
-        let speedFactor;
-        switch(selectedPitch) {
-            case 'FB': speedFactor = 0.011; break;
-            case 'CH': speedFactor = 0.005; break;
-            case 'SL': speedFactor = 0.008; break;
-        }
-
+        let speedFactor = PITCH_SPEEDS[selectedPitch] || 0.01;
         animateBall(() => {
             ball.owner = "catcher";
             lastPitch = selectedPitch;

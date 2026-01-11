@@ -1,4 +1,3 @@
-let aiSwingPlanned = false;
 function aiDecideSwing() {
   if (!aiBattingEnabled || !ball.active) return;
 

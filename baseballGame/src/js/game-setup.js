@@ -1,98 +1,4 @@
-const canvas = document.getElementById('field');
-const ctx = canvas.getContext('2d');
-const throwButton = document.getElementById('throwButton');
-
-const centerX = canvas.width / 2;
-const homePlateY = canvas.height - 50;
-const baseDistance = 160;
-const playerSize = 25;
-
-const catcherImg = new Image();
-const nadhazovacImg = new Image();
-const palkarImg = new Image();
-const polarImg = new Image();
-const bezecImg = new Image();
-const ballImg = new Image();
-const batterDugoutImg = new Image();
-const benchPlayerImg = new Image();
-const benchPlayerBImg = new Image();
-const slideImg = new Image();
-const actionImg = new Image();
-const logoImg = new Image();
-
-catcherImg.src = 'images/catcher.png';
-nadhazovacImg.src = 'images/nadhazovac.png';
-palkarImg.src = 'images/palkar.png';
-polarImg.src = 'images/polar.png';
-bezecImg.src = 'images/bezec.png';
-ballImg.src = 'images/baseball.png';
-benchPlayerImg.src = 'images/benchPlayer.png';
-benchPlayerBImg.src = 'images/benchPlayerB.png';
-slideImg.src = 'images/slide.png';
-actionImg.src = 'images/akce.png';
-logoImg.src = 'images/logo.png';
-batterDugoutImg.src = 'images/batterDugout.png';
-
-const throwSound = new Audio('audio/throw.mp3');
-const slideSound = new Audio('audio/slide.wav');
-slideSound.volume = 0.5;
-const walkSound = new Audio('audio/running.mp3');
-walkSound.loop = true;
-walkSound.playbackRate = 0.9;
-const runningSound = new Audio('audio/running.mp3');
-runningSound.loop = true;
-runningSound.playbackRate = 1.5;
-const hitSound = new Audio('audio/hit.mp3');
-hitSound.playbackRate = 2;
-const swingSound = new Audio('audio/swing.mp3');
-swingSound.playbackRate = 6;
-const strikeSound = new Audio('audio/strike.mp3');
-const ballSound = new Audio('audio/ball.mp3');
-const swingAndMissSound = new Audio('audio/swingandmiss.mp3');
-const ballfourSound = new Audio('audio/ballfour.mp3');
-const strikeoutSound = new Audio('audio/strikeout.mp3');
-const safeSound = new Audio('audio/safe.mp3');
-const outSound = new Audio('audio/out.mp3');
-const singleSound = new Audio('audio/single.mp3');
-const doubleSound = new Audio('audio/double.mp3');
-const tripleSound = new Audio('audio/triple.mp3');
-const homerunSound = new Audio('audio/homerun.mp3');
-
-const allSounds = [
-  throwSound,
-  slideSound,
-  walkSound,
-  runningSound,
-  hitSound,
-  swingSound,
-  ballSound,
-  ballfourSound,
-  strikeSound,
-  strikeoutSound,
-  safeSound,
-  outSound,
-  singleSound,
-  doubleSound,
-  tripleSound,
-  homerunSound,
-  swingAndMissSound
-];
-
 if (typeof applyVolumeSettings === 'function') applyVolumeSettings();
-
-let battersQueue = [
-  { name: 'Turner', img: palkarImg },
-  { name: 'Betts', img: palkarImg },
-  { name: 'Ohtani', img: palkarImg },
-  { name: 'Guerrero Jr.', img: palkarImg },
-  { name: 'Trout', img: palkarImg },
-  { name: 'Judge', img: palkarImg },
-  { name: 'Rodriguez', img: palkarImg },
-  { name: 'Jeter', img: palkarImg },
-  { name: 'Acuña Jr.', img: palkarImg }
-];
-
-let animationInProgress = false;
 
 function startAnimation() {
   animationInProgress = true;
@@ -146,13 +52,6 @@ const catcher = players.find(p => p.name === 'Catcher');
 catcher.homeX = catcher.x;
 catcher.homeY = catcher.y;
 catcher.moving = false;
-
-const POS = {
-  FIRST: { x: centerX + baseDistance - playerSize / 2, y: homePlateY - baseDistance - playerSize / 2 },
-  SECOND: { x: centerX - playerSize / 2, y: homePlateY - baseDistance * 2 - playerSize / 2 },
-  THIRD: { x: centerX - baseDistance - playerSize / 2, y: homePlateY - baseDistance - playerSize / 2 },
-  HOME: { x: centerX, y: homePlateY },
-};
 
 function getBatterPositions() {
   return [

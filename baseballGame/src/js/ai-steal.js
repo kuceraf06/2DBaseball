@@ -1,7 +1,3 @@
-let aiStealEnabled = true;
-let canStealThisPitch = false;
-let isNewPitch = false;
-
 function aiSteal(force = false) {
     if (!aiStealEnabled) return;
     if (!canStealThisPitch && !force) return;
@@ -13,7 +9,7 @@ function aiSteal(force = false) {
 
     const rand = Math.random() * 100;
 
-    if (bases[0] && bases[1] && !bases[2] && rand < 10) {
+    if (bases[0] && bases[1] && !bases[2] && rand < AI_STEAL_CHANCE_DOUBLE) {
         stealAttempt2B = true;
         stealAttempt3B = true;
         stealBtn2B.classList.add('active-steal');
@@ -28,7 +24,7 @@ function aiSteal(force = false) {
         return;
     }
 
-    if (bases[0] && !bases[1] && rand < 30)  {
+    if (bases[0] && !bases[1] && rand < AI_STEAL_CHANCE_2B)  {
         stealAttempt2B = true;
         stealBtn2B.classList.add('active-steal');
         startSteal1B2B(() => {
@@ -38,7 +34,7 @@ function aiSteal(force = false) {
         canStealThisPitch = false;
     }
 
-    if (bases[1] && !bases[2] && rand < 20)  {
+    if (bases[1] && !bases[2] && rand < AI_STEAL_CHANCE_3B)  {
         stealAttempt3B = true;
         stealBtn3B.classList.add('active-steal');
         startSteal2B3B(() => {

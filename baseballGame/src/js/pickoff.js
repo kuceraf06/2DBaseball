@@ -1,11 +1,3 @@
-let pickoffAttempt1B = false;
-let pickoffAttempt2B = false;
-let pickoffAttempt3B = false;
-
-const pickoffBtn1B = document.getElementById("pickoffButton");
-const pickoffBtn2B = document.getElementById("pickoffButton2B");
-const pickoffBtn3B = document.getElementById("pickoffButton3B");
-
 function hidePickoffButtons() {
   pickoffBtn1B.classList.add('hidden');
   pickoffBtn2B.classList.add('hidden');

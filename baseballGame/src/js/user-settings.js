@@ -6,35 +6,27 @@ let strikeZoneSwitch;
 let saveSettingsBtn;
 let saveCloseSettingsBtn;
 let stopPitchKeyInput;
-let stopPitchKey = 'Space';
 let newStopPitchKey = null;
 
 let swingKeyInput;
-let swingKey = 'Space';
 let newSwingKey = null;
 
 let settingsToggleKeyInput;
-let settingsToggleKey = 'Escape';
 let newSettingsToggleKey = null;
 
 let throwTo1BKeyInput;
-let throwTo1BKey = '1';
 let newThrowTo1BKey = null;
 
 let throwTo2BKeyInput;
-let throwTo2BKey = '2';
 let newThrowTo2BKey = null;
 
 let throwTo3BKeyInput;
-let throwTo3BKey = '3';
 let newThrowTo3BKey = null;
 
 let unsavedChanges = false;
 
 let volumeSlider;
 let volumeIcon;
-let globalVolume = 1.0;
-let isMuted = false;
 
 let lastVolume = globalVolume;
 let savedVolumeBeforeModal;

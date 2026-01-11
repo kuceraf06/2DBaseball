@@ -29,14 +29,6 @@ function drawBatters() {
   }
 }
 
-let swingAnimation = {
-  active: false,
-  progress: 0,
-  speed: 10,
-  maxAngle: Math.PI/2,
-  lastTime: 0
-};
-
 function triggerSwing() {
   if (!ball.active || hitRegistered) return;
 
@@ -89,7 +81,6 @@ function updateSwingAnimation(timestamp) {
 }
 
 document.addEventListener('keydown', (e) => {
-  // normalize key name so custom binds and variants work
   const keyName = (typeof normalizeKeyName === 'function') ? normalizeKeyName(e.key) : e.key;
   if (keyName === swingKey && !pickoffInProgress && gameState === 'offense' && ball.active) {
     triggerSwing();

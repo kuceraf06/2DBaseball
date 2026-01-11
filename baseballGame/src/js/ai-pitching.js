@@ -6,20 +6,20 @@ function aiPitch() {
   hitRegistered = false;
   swingActive = false;
 
-  if (bases[0] && Math.random() < 0.20) {
+  if (bases[0] && Math.random() < AI_PICKOFF_CHANCE_1B) {
     startPickoff1B();
     return;
   }
-  if (bases[1] && Math.random() < 0.15) {
+  if (bases[1] && Math.random() < AI_PICKOFF_CHANCE_2B) {
     startPickoff2B();
     return;
   }
-  if (bases[2] && Math.random() < 0.10) {
+  if (bases[2] && Math.random() < AI_PICKOFF_CHANCE_3B) {
     startPickoff3B();
     return;
   }
 
-  const isStrike = Math.random() < 0.65;
+  const isStrike = Math.random() < AI_PITCH_STRIKE_CHANCE;
   const pitchTypes = ['FB', 'CH', 'SL'];
   const chosenPitch = pitchTypes[Math.floor(Math.random() * pitchTypes.length)];
   selectedPitch = chosenPitch;
@@ -53,13 +53,7 @@ function aiPitch() {
   }
 
 
-  let speedFactor;
-  switch (chosenPitch) {
-    case 'FB': speedFactor = 0.011; break;
-    case 'CH': speedFactor = 0.005; break;
-    case 'SL': speedFactor = 0.008; break;
-    default: speedFactor = 0.01;
-  }
+  let speedFactor = PITCH_SPEEDS[chosenPitch] || 0.01;
 
   animateBall(() => {
     ball.owner = "catcher";

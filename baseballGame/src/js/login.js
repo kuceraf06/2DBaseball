@@ -1,13 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.getElementById("loginForm");
     const usernameInput = document.getElementById("username");
     const passwordInput = document.getElementById("password");
     const submitBtn = document.getElementById("loginBtn");
     const resultBox = document.getElementById("login-result");
-    const rememberCheckbox = document.getElementById("remember-me");
-
     const resultIcon = resultBox?.querySelector(".result-icon");
     const resultMsg  = resultBox?.querySelector(".result-message");
+    const rememberCheckbox = document.getElementById("remember-me");
 
     autoLoginCheck();
 
