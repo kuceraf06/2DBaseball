@@ -13,6 +13,7 @@
     <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>public/images/favicon/favicon.ico?v=<?= time(); ?>">
 
     <link rel="stylesheet" href="<?= $baseUrl ?>public/css/pageshared.css?v=<?= time(); ?>">
+        <link rel="stylesheet" href="<?= $baseUrl ?>public/css/fonts.css?v=<?= time(); ?>">
     <?php if (!empty($pageCSS)) echo $pageCSS; ?>
 
     <meta name="robots" content="index, follow">
