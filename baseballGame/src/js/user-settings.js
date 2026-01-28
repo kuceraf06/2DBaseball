@@ -314,16 +314,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (desktopBtn) {
       const desktopIcon = desktopBtn.querySelector('i');
 
+      function updateFullscreenIcon(mode) {
+        desktopIcon.className =
+          mode === 'fullscreen'
+            ? 'bx bx-exit-fullscreen'
+            : 'bx bx-fullscreen';
+      }
+
       async function syncFullscreenIcon() {
         if (!window.api?.getWindowMode) return;
 
         const mode = await window.api.getWindowMode();
+        updateFullscreenIcon(mode);
+      }
 
+      if (window.api?.onWindowModeChanged) {
         window.api.onWindowModeChanged(mode => {
-          desktopIcon.className =
-            mode === 'fullscreen'
-              ? 'bx bx-exit-fullscreen'
-              : 'bx bx-fullscreen';
+          updateFullscreenIcon(mode);
         });
       }
 
@@ -331,7 +338,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!window.api) return;
 
         window.api.toggleFullscreen();
-        setTimeout(syncFullscreenIcon, 150);
       });
 
       syncFullscreenIcon();

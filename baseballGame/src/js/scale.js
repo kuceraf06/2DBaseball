@@ -15,11 +15,10 @@ async function scaleGame() {
     const scaleX = window.innerWidth / maxWidth; 
     const scaleY = window.innerHeight / maxHeight; 
 
-    gameScale = isFullscreen
-    ? Math.min(scaleX, scaleY)
-    : Math.min(scaleX, scaleY, 1);
+    gameScale = Math.min(scaleX, scaleY, 1);
 
     wrapper.style.transform = `scale(${gameScale})`;
+    wrapper.style.transformOrigin = 'center center';
     wrapper.style.width = `${maxWidth}px`;
     wrapper.style.height = `${maxHeight}px`;
 }

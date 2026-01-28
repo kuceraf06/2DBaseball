@@ -1,9 +1,9 @@
 # Node
-baseballGame/node_modules/
+# baseballGame/node_modules/
 baseballGame/npm-debug.log
 
 # Build output
-baseballGame/dist/
+# baseballGame/dist/
 baseballGame/out/
 baseballGame/*.exe
 

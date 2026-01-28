@@ -39,17 +39,7 @@ confirmLogoutBtn.addEventListener('click', () => {
   startScreen.style.display = 'flex';
 });
 
-document.getElementById('minimizeBtn').addEventListener('click', () => {
-  window.api.minimize();
-});
-
-document.getElementById('desktopBtn').addEventListener('click', () => {
-  window.api.toggleFullscreen();
-});
-
-document.getElementById('closeBtn').addEventListener('click', () => {
-  window.api.close();
-});
+// Window controls are handled in user-settings.js to avoid duplicate handlers
 
 document.getElementById('exitAppBtn').addEventListener('click', () => {
   window.api.quitApp();
