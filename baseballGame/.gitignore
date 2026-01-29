@@ -1,9 +1,9 @@
 # Node
-node_modules/
+# node_modules/
 npm-debug.log
 
 # Build output
-dist/
+# dist/
 out/
 *.exe
 

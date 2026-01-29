@@ -1,0 +1,27 @@
+directories:
+  output: dist
+  buildResources: build
+appId: com.filip.2dbaseball
+productName: 2D Baseball
+icon: build/favicon.ico
+asar: true
+files:
+  - filter:
+      - main.js
+      - preload.js
+      - src/**/*
+      - baseballWeb/**/*
+      - package.json
+      - node_modules/**
+      - build/favicon.ico
+win:
+  target: nsis
+  icon: build/favicon.ico
+  signAndEditExecutable: false
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+electronVersion: 38.3.0
