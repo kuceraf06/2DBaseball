@@ -8,7 +8,13 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/about.css?v=
     <header class="about-hero">
         <h1 class="about-title">About <span>2D&nbsp;Baseball<span></h1>
         <p class="about-subtitle">This page is about our company, the 2D Baseball simulator, and future plans for the game and our company.</p>
-        <a href="<?php echo $baseUrl; ?>public/images/about/roadmap.png" target="_blank" class="btn-download about-btn">Roadmap</a>
+        <div class="nav-btns">
+            <a href="<?php echo $baseUrl; ?>public/images/about/roadmap.png" target="_blank" class="btn-download about-btn">Roadmap</a>
+            <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_Dokumentace.docx" target="_blank" class="btn-download about-btn second-btn">Documentation</a>
+            <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_Manual.docx" target="_blank" class="btn-download about-btn">User Manual</a>
+            <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_Investor_Kit.docx" target="_blank" class="btn-download about-btn second-btn">Investor Kit</a>
+            <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_New_Employee_Onboarding.docx" target="_blank" class="btn-download about-btn">New Employee Onboarding</a>
+        </div>
     </header>
 
     <section class="about-block">
