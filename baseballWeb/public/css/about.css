@@ -89,6 +89,23 @@
     max-width: 650px;
 }
 
+.nav-btns {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1000px;
+}
+
+.second-btn {
+    background: transparent !important;
+    border: 1px solid #007bff !important;
+}
+
+.second-btn:hover {
+    background: #005fcc !important;
+}
+
 .lightbox {
     position: fixed;
     z-index: 9999;
