@@ -12,8 +12,8 @@ $pageCSS = '<link rel="stylesheet" href="' . $baseUrl . 'public/css/about.css?v=
             <a href="<?php echo $baseUrl; ?>public/images/about/roadmap.png" target="_blank" class="btn-download about-btn">Roadmap</a>
             <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_Dokumentace.docx" target="_blank" class="btn-download about-btn second-btn">Documentation</a>
             <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_Manual.docx" target="_blank" class="btn-download about-btn">User Manual</a>
-            <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_Investor_Kit.docx" target="_blank" class="btn-download about-btn second-btn">Investor Kit</a>
-            <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_New_Employee_Onboarding.docx" target="_blank" class="btn-download about-btn">New Employee Onboarding</a>
+            <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_Investor.docx" target="_blank" class="btn-download about-btn second-btn">Investor Kit</a>
+            <a href="<?php echo $baseUrl; ?>public/docs/2D_Baseball_Onboarding.docx" target="_blank" class="btn-download about-btn">New Employee Onboarding</a>
         </div>
     </header>
 
